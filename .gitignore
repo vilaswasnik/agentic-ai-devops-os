@@ -59,3 +59,16 @@ temp/
 test.sh
 gitpushtovilas.sh
 ucdaiagent_make_tar.sh
+
+# Runtime data and generated files
+data/conversations.json
+my_folder/
+
+# Test and development files  
+readme_encoded.txt
+test-variations.js
+test_knowledge_base.js
+
+# Duplicate configuration files (originals in ansible/)
+ansibletest.yml
+inventory
