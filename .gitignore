@@ -54,3 +54,8 @@ Thumbs.db
 # Local development files
 uploads/
 temp/
+
+# Development and utility scripts
+test.sh
+gitpushtovilas.sh
+ucdaiagent_make_tar.sh
