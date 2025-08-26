@@ -1,6 +1,19 @@
 # Contributing to Agentic AI DevOps OS
 
-Welcome to the **Agentic AI DevOps OS** project! We're excited to have you contribute to this enterprise-grade AI-powered DevOps automation platform.
+Welcome to the **Agentic AI DevOps OS** project! We're excited to have you contribute to this enterprise-grade AI-powered DevOps a### 🌟 **Contribution Areas**
+
+### **🚀 Current Priority Projects**
+1. **Terraform Integration** - Create Infrastructure as Code agent
+   - Skills needed: Terraform, HCL, Infrastructure automation
+   - Impact: High - Core platform feature
+
+2. **Cloud Deployment Automation** - Multi-platform container deployment
+   - Skills needed: Docker, Cloud platforms, Container orchestration
+   - Impact: High - Production deployment capability
+
+3. **Authentication System** - Multi-user support
+   - Skills needed: Auth systems, JWT, RBAC
+   - Impact: High - Enterprise readinessform.
 
 ## 🚀 **Quick Start for Contributors**
 
@@ -50,7 +63,7 @@ curl http://localhost:3000
 #### **✨ New Features**
 - **High Priority Areas:**
   - Terraform AI Agent implementation
-  - Kubernetes deployment automation
+  - Advanced cloud deployment automation
   - Multi-user authentication system
   - Mobile-responsive interfaces
   - Performance optimizations

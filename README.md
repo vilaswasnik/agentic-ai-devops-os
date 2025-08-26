@@ -27,8 +27,163 @@ Agentic AI DevOps OS is a production-ready, open-source platform that revolution
 ### 🔧 **DevOps Automation Ready**
 - **15+ Ansible Playbooks** - Pre-built automation for common tasks
 - **Shell Script Library** - Verified and tested system operations
-- **Container Support** - Docker and Kubernetes deployment ready
+- **Container Support** - Docker deployment ready
 - **CI/CD Integration** - GitHub Actions and pipeline support
+
+## 🏗️ **Architecture Overview**
+
+### 🎯 **System Architecture**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           Agentic AI DevOps OS                                 │
+│                        Enterprise-Grade Architecture                           │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              Frontend Layer                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  🖥️ Desktop Preview  │  🏠 Home Dashboard  │  ⚡ Ansible Lab  │  🖥️ Shell Matrix  │
+│  📚 Knowledge Neural │  📄 Document Mgr   │  👨‍💼 Admin Panel │  🤖 AI Agent      │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              API Gateway                                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  📡 Express.js Server (Node.js) - Port 3000                                   │
+│  🔄 RESTful APIs  │  📨 WebSocket Support  │  🔒 Security Middleware          │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            AI Agent Layer                                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  ⚡ Ansible Agent  │  🖥️ Shell Agent   │  📚 Knowledge Agent  │  🏗️ Future Agents │
+│  (Playbook Exec)  │  (System Cmds)    │  (RAG System)       │  (Terraform...)   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           Integration Layer                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  ☁️ AWS Bedrock    │  🔧 Ansible Core  │  💾 Local Storage  │  📊 Embeddings    │
+│  (Claude 3.5)     │  (2.16.3)         │  (Documents)       │  (Vector Search)   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 🧩 **Component Architecture**
+
+#### **🎨 Frontend Components**
+```
+public/
+├── 🖥️ desktop-preview.html    # Main enterprise dashboard
+├── 🏠 home.html               # Central command center  
+├── ⚡ ansible-lab.html        # Ansible automation interface
+├── 🖥️ shell-matrix.html       # Shell command execution
+├── 📚 knowledge-neural.html   # RAG knowledge base
+├── 📄 document-manager.html   # Document upload/processing
+├── scripts/                   # Client-side JavaScript
+│   ├── aiagent.js            # AI agent interactions
+│   ├── ansibleLab.js         # Ansible interface logic
+│   ├── os.js                 # Operating system interface
+│   └── llmService.js         # LLM communication layer
+└── styles/                    # CSS styling
+    ├── os-desktop.css        # Desktop interface styling
+    ├── matrix.css            # Terminal/shell styling
+    └── agent-interfaces.css  # Agent-specific styling
+```
+
+#### **⚙️ Backend Architecture**
+```
+server.js                      # 🚀 Main Express application
+├── 📡 API Routes
+│   ├── /api/chat             # AI conversation endpoint
+│   ├── /api/ansible          # Ansible execution
+│   ├── /api/shell            # Shell command execution
+│   ├── /api/knowledge        # RAG knowledge search
+│   └── /api/upload           # Document upload
+├── 🤖 AI Integration
+│   ├── AWS Bedrock Client    # Claude 3.5 Sonnet
+│   ├── Embedding Generator   # Vector embeddings
+│   └── Context Manager       # Conversation context
+└── 🔧 Utility Functions
+    ├── Ansible Executor      # Playbook management
+    ├── Shell Command Runner  # System operations
+    └── Document Processor    # File handling
+```
+
+#### **🗄️ Data Layer**
+```
+data/
+├── conversations.json         # 💬 Chat history (runtime)
+└── [runtime files]           # 📊 Temporary data
+
+public/scripts/documents/
+├── knowledgeBase.json        # 📚 Structured knowledge
+├── knowledgeBase_embeddings.json # 🧠 Vector embeddings
+└── [uploaded files]          # 📄 User documents
+
+ansible/
+├── *.yml playbooks          # ⚡ Automation scripts
+├── inventory                # 📋 Host configurations
+└── [ansible configs]        # 🔧 Ansible settings
+```
+
+### 🔄 **Data Flow Architecture**
+
+#### **User Interaction Flow:**
+```
+1. 👤 User Input → 2. 🖥️ Frontend → 3. 📡 API Gateway → 4. 🤖 AI Agent → 5. 📤 Response
+   │                                                      │
+   └────────── 6. 📱 UI Update ←──────────────────────────┘
+```
+
+#### **AI Processing Pipeline:**
+```
+📝 User Query
+    ↓
+🧠 Intent Recognition (Claude 3.5)
+    ↓
+🎯 Agent Selection (Ansible/Shell/Knowledge)
+    ↓
+⚡ Agent Execution
+    ├── Ansible: Playbook execution
+    ├── Shell: System command
+    └── Knowledge: RAG search
+    ↓
+📊 Result Processing
+    ↓
+💬 AI-Enhanced Response
+    ↓
+🖥️ Frontend Display
+```
+
+### 🔐 **Security Architecture**
+
+#### **Security Layers:**
+- **🔒 Environment Variables** - Secure credential management
+- **🛡️ AWS IAM Integration** - Cloud-native security
+- **🚫 Input Validation** - Prevent injection attacks
+- **📝 Audit Logging** - Track all operations
+- **🔐 HTTPS Ready** - Production encryption support
+
+#### **Data Protection:**
+- **Local Storage** - Sensitive data never leaves your environment
+- **Encrypted Communications** - AWS Bedrock secure channels
+- **No Credential Exposure** - Environment-based configuration
+- **Isolated Execution** - Sandboxed command execution
+
+### 📈 **Scalability Design**
+
+#### **Horizontal Scaling:**
+- **🐳 Docker Containers** - Containerized deployment
+- **☁️ Cloud-Native** - Multi-platform deployment
+- **📊 Stateless Design** - Easy replication
+- **🔄 Load Balancer Ready** - Multiple instance support
+
+#### **Performance Optimization:**
+- **⚡ Async Processing** - Non-blocking operations
+- **🧠 Smart Caching** - Embedding and response caching
+- **📦 Efficient Storage** - Optimized document processing
+- **🚀 Fast Startup** - Pre-loaded knowledge base
 
 ## 🏁 **Quick Start Guide**
 
@@ -182,7 +337,7 @@ agentic-ai-devops-os/
 
 #### **🚀 High Priority:**
 1. **Terraform Integration** - Implement Infrastructure as Code agent
-2. **Kubernetes Deployment** - Add K8s manifests and helm charts
+2. **Advanced Cloud Deployment** - Multi-platform deployment automation
 3. **Authentication System** - Multi-user login and RBAC
 4. **API Documentation** - Swagger/OpenAPI specification
 5. **Mobile Interface** - Responsive design improvements
@@ -290,16 +445,11 @@ docker run -p 3000:3000 \
   agentic-ai-devops-os
 ```
 
-### Kubernetes Deployment
-```bash
-# Apply Kubernetes manifests (coming soon)
-kubectl apply -f k8s/
-```
-
 ### Cloud Deployment
-- **AWS ECS/EKS** - Container orchestration ready
+- **AWS ECS** - Container service deployment
 - **Azure Container Instances** - Simple cloud deployment
 - **Google Cloud Run** - Serverless container platform
+- **DigitalOcean App Platform** - Platform-as-a-Service deployment
 - **GitHub Pages** - Static hosting for frontend *(in development)*
 
 ## 🛠️ **Development Status**
@@ -315,7 +465,7 @@ kubectl apply -f k8s/
 - ✅ Docker containerization and deployment preparation
 
 ### 🚧 **Enhancement Roadmap**
-- 🔄 Kubernetes orchestration and scaling
+- 🔄 Advanced cloud deployment automation
 - 🔄 Terraform AI agent implementation
 - 🔄 Enhanced security and multi-user authentication
 - 🔄 Performance optimization and caching
@@ -372,7 +522,7 @@ For comprehensive documentation, see:
 7. ✅ **Production Testing** - All components verified and operational
 
 ### 🚀 **Next Phase Development**
-1. 🔄 **Kubernetes Orchestration** - Scale across cloud environments
+1. 🔄 **Advanced Cloud Deployment** - Multi-platform container orchestration
 2. 🔄 **Enterprise Security** - Multi-user authentication and RBAC
 3. 🔄 **API Ecosystem** - RESTful services and third-party integrations
 4. 🔄 **Custom LLM Training** - Domain-specific model development
