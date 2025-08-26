@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Core AI - Cloud Architecture</title>
+    <link rel="stylesheet" href="styles/agent-interfaces.css">
+    <script type="module" src="scripts/aiagent.js"></script>
+</head>
+<body class="terraform-theme">
+    <!-- Terraform-specific Background -->
+    <div class="agent-background terraform-bg">
+        <div class="infrastructure-grid"></div>
+        <div class="terraform-particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="agent-nav">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='/aiagent.html'">
+                ← Back to Neural OS
+            </button>
+        </div>
+        <div class="nav-center">
+            <div class="agent-identity">
+                <span class="agent-icon">🏗️</span>
+                <span class="agent-name">Terraform Core AI</span>
+                <span class="agent-status">INFRASTRUCTURE READY</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="neural-pulse terraform-pulse"></div>
+        </div>
+    </nav>
+
+    <!-- Main Interface -->
+    <div class="agent-interface">
+        <!-- Left Panel - Terraform Tools -->
+        <aside class="agent-sidebar terraform-sidebar">
+            <div class="sidebar-header">
+                <h3>TERRAFORM CORE</h3>
+                <div class="neural-line terraform-line"></div>
+            </div>
+
+            <!-- Terraform Commands -->
+            <div class="tool-section">
+                <h4>CORE COMMANDS</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="terraform init">
+                        <span class="tool-icon">🚀</span>
+                        <span class="tool-name">Initialize</span>
+                    </button>
+                    <button class="tool-btn" data-command="terraform plan">
+                        <span class="tool-icon">📋</span>
+                        <span class="tool-name">Plan</span>
+                    </button>
+                    <button class="tool-btn" data-command="terraform apply">
+                        <span class="tool-icon">⚡</span>
+                        <span class="tool-name">Apply</span>
+                    </button>
+                    <button class="tool-btn" data-command="terraform destroy">
+                        <span class="tool-icon">💥</span>
+                        <span class="tool-name">Destroy</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cloud Providers -->
+            <div class="tool-section">
+                <h4>CLOUD PROVIDERS</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="setup aws terraform">
+                        <span class="tool-icon">☁️</span>
+                        <span class="tool-name">AWS</span>
+                    </button>
+                    <button class="tool-btn" data-command="setup azure terraform">
+                        <span class="tool-icon">🌐</span>
+                        <span class="tool-name">Azure</span>
+                    </button>
+                    <button class="tool-btn" data-command="setup gcp terraform">
+                        <span class="tool-icon">🌎</span>
+                        <span class="tool-name">GCP</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Infrastructure Templates -->
+            <div class="tool-section">
+                <h4>TEMPLATES</h4>
+                <div class="template-list">
+                    <div class="template-item" data-template="vpc">
+                        <span class="template-icon">🌐</span>
+                        <span class="template-name">VPC Network</span>
+                    </div>
+                    <div class="template-item" data-template="ec2">
+                        <span class="template-icon">💻</span>
+                        <span class="template-name">EC2 Instance</span>
+                    </div>
+                    <div class="template-item" data-template="rds">
+                        <span class="template-icon">🗄️</span>
+                        <span class="template-name">RDS Database</span>
+                    </div>
+                    <div class="template-item" data-template="kubernetes">
+                        <span class="template-icon">☸️</span>
+                        <span class="template-name">Kubernetes</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content - Terraform Chat -->
+        <main class="agent-main">
+            <div class="agent-chat-container" id="chat-container">
+                <div class="chat-header terraform-header">
+                    <div class="header-left">
+                        <div class="agent-avatar terraform-avatar">
+                            <div class="avatar-pulse"></div>
+                            <span>🏗️</span>
+                        </div>
+                        <div class="header-info">
+                            <h3>Terraform Core AI</h3>
+                            <p>Cloud Infrastructure Architect</p>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="infrastructure-status">
+                            <div class="status-indicator active"></div>
+                            <span>Infrastructure Engine Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-box">
+                    <div class="welcome-message">
+                        <div class="message bot terraform-message">
+                            <div class="message-avatar">🏗️</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender-name">Terraform Core AI</span>
+                                    <span class="message-time">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    <h4>🏗️ Terraform Infrastructure Core Online</h4>
+                                    <p>Welcome to the Terraform Infrastructure Hub! I'm your specialized AI for cloud infrastructure as code and resource management.</p>
+                                    
+                                    <div class="capabilities-showcase">
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🚀</span>
+                                            <span class="cap-text">Plan & Deploy</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">☁️</span>
+                                            <span class="cap-text">Multi-Cloud</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🔧</span>
+                                            <span class="cap-text">State Management</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">📊</span>
+                                            <span class="cap-text">Resource Tracking</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="quick-commands">
+                                        <p><strong>Try these commands:</strong></p>
+                                        <ul>
+                                            <li>"terraform plan" - Preview infrastructure changes</li>
+                                            <li>"create vpc terraform" - Generate VPC configuration</li>
+                                            <li>"setup aws infrastructure" - AWS resource deployment</li>
+                                            <li>"show terraform state" - Display current state</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neural-input-container terraform-input">
+                    <div class="input-wrapper">
+                        <div class="input-icon">🏗️</div>
+                        <input type="text" 
+                               class="neural-input" 
+                               placeholder="Enter Terraform infrastructure command... (e.g., 'plan deployment', 'create vpc')"
+                               id="user-input">
+                        <button id="send-button" class="send-btn terraform-send">
+                            <span class="send-icon">🚀</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden elements -->
+    <div id="bot-mouth" style="display: none;"></div>
+
+    <script>
+        // Terraform-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tool buttons
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const command = this.dataset.command;
+                    const input = document.getElementById('user-input');
+                    input.value = command;
+                    input.focus();
+                    
+                    setTimeout(() => {
+                        const event = new KeyboardEvent('keypress', { key: 'Enter' });
+                        input.dispatchEvent(event);
+                    }, 500);
+                });
+            });
+
+            // Template items
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const template = this.dataset.template;
+                    const input = document.getElementById('user-input');
+                    input.value = `create ${template} terraform configuration`;
+                    input.focus();
+                });
+            });
+
+            setTimeout(() => {
+                document.getElementById('user-input').focus();
+            }, 1000);
+
+            document.title = 'Terraform Core AI - Active';
+        });
+    </script>
+</body>
+</html>

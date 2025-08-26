@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansible Neural AI - Infrastructure Automation</title>
+    <link rel="stylesheet" href="styles/agent-interfaces.css">
+    <script type="module" src="scripts/aiagent.js"></script>
+</head>
+<body class="ansible-theme">
+    <!-- Ansible-specific Background -->
+    <div class="agent-background ansible-bg">
+        <div class="automation-grid"></div>
+        <div class="ansible-particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="agent-nav">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='/aiagent.html'">
+                ← Back to Neural OS
+            </button>
+        </div>
+        <div class="nav-center">
+            <div class="agent-identity">
+                <span class="agent-icon">⚡</span>
+                <span class="agent-name">Ansible Neural AI</span>
+                <span class="agent-status">AUTOMATION READY</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="neural-pulse ansible-pulse"></div>
+        </div>
+    </nav>
+
+    <!-- Main Interface -->
+    <div class="agent-interface">
+        <!-- Left Panel - Ansible Tools -->
+        <aside class="agent-sidebar ansible-sidebar">
+            <div class="sidebar-header">
+                <h3>ANSIBLE ARSENAL</h3>
+                <div class="neural-line ansible-line"></div>
+            </div>
+
+            <!-- Ansible Playbooks -->
+            <div class="tool-section">
+                <h4>PLAYBOOKS</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="run ansible test playbook">
+                        <span class="tool-icon">🚀</span>
+                        <span class="tool-name">Test Playbook</span>
+                    </button>
+                    <button class="tool-btn" data-command="run getosdetails playbook">
+                        <span class="tool-icon">📊</span>
+                        <span class="tool-name">OS Details</span>
+                    </button>
+                    <button class="tool-btn" data-command="install ansible">
+                        <span class="tool-icon">⚙️</span>
+                        <span class="tool-name">Install Ansible</span>
+                    </button>
+                    <button class="tool-btn" data-command="create new playbook">
+                        <span class="tool-icon">📝</span>
+                        <span class="tool-name">New Playbook</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Inventory Management -->
+            <div class="tool-section">
+                <h4>INVENTORY</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="show inventory">
+                        <span class="tool-icon">📋</span>
+                        <span class="tool-name">View Inventory</span>
+                    </button>
+                    <button class="tool-btn" data-command="add host">
+                        <span class="tool-icon">➕</span>
+                        <span class="tool-name">Add Host</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Templates -->
+            <div class="tool-section">
+                <h4>TEMPLATES</h4>
+                <div class="template-list">
+                    <div class="template-item" data-template="web-server">
+                        <span class="template-icon">🌐</span>
+                        <span class="template-name">Web Server Setup</span>
+                    </div>
+                    <div class="template-item" data-template="database">
+                        <span class="template-icon">🗄️</span>
+                        <span class="template-name">Database Config</span>
+                    </div>
+                    <div class="template-item" data-template="security">
+                        <span class="template-icon">🔒</span>
+                        <span class="template-name">Security Hardening</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content - Ansible Chat -->
+        <main class="agent-main">
+            <div class="agent-chat-container" id="chat-container">
+                <div class="chat-header ansible-header">
+                    <div class="header-left">
+                        <div class="agent-avatar ansible-avatar">
+                            <div class="avatar-pulse"></div>
+                            <span>⚡</span>
+                        </div>
+                        <div class="header-info">
+                            <h3>Ansible Neural AI</h3>
+                            <p>Infrastructure Automation Specialist</p>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="automation-status">
+                            <div class="status-indicator active"></div>
+                            <span>Automation Engine Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-box">
+                    <div class="welcome-message">
+                        <div class="message bot ansible-message">
+                            <div class="message-avatar">⚡</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender-name">Ansible Neural AI</span>
+                                    <span class="message-time">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    <h4>⚡ Ansible Neural Network Initialized</h4>
+                                    <p>Welcome to the Ansible Automation Hub! I'm your specialized AI for infrastructure automation and configuration management.</p>
+                                    
+                                    <div class="capabilities-showcase">
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🚀</span>
+                                            <span class="cap-text">Deploy Infrastructure</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">⚙️</span>
+                                            <span class="cap-text">Configure Systems</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">📊</span>
+                                            <span class="cap-text">Monitor Deployments</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🔧</span>
+                                            <span class="cap-text">Manage Inventory</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="quick-commands">
+                                        <p><strong>Try these commands:</strong></p>
+                                        <ul>
+                                            <li>"run test playbook" - Execute test automation</li>
+                                            <li>"show inventory" - Display managed hosts</li>
+                                            <li>"create web server playbook" - Generate new automation</li>
+                                            <li>"check system status" - Monitor infrastructure</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neural-input-container ansible-input">
+                    <div class="input-wrapper">
+                        <div class="input-icon">⚡</div>
+                        <input type="text" 
+                               class="neural-input" 
+                               placeholder="Enter Ansible automation command... (e.g., 'run playbook', 'deploy infrastructure')"
+                               id="user-input">
+                        <button id="send-button" class="send-btn ansible-send">
+                            <span class="send-icon">🚀</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden elements -->
+    <div id="bot-mouth" style="display: none;"></div>
+
+    <script>
+        // Ansible-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tool buttons
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const command = this.dataset.command;
+                    const input = document.getElementById('user-input');
+                    input.value = command;
+                    input.focus();
+                    
+                    // Auto-execute after a short delay
+                    setTimeout(() => {
+                        const event = new KeyboardEvent('keypress', { key: 'Enter' });
+                        input.dispatchEvent(event);
+                    }, 500);
+                });
+            });
+
+            // Template items
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const template = this.dataset.template;
+                    const input = document.getElementById('user-input');
+                    input.value = `create ${template} playbook`;
+                    input.focus();
+                });
+            });
+
+            // Focus input
+            setTimeout(() => {
+                document.getElementById('user-input').focus();
+            }, 1000);
+
+            // Update page title
+            document.title = 'Ansible Neural AI - Active';
+        });
+    </script>
+</body>
+</html>

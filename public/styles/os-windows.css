@@ -1,0 +1,82 @@
+/* Minimal window manager styling for OS desktop */
+.window-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* windows enable their own interactions */
+  z-index: 500;
+}
+
+.os-window {
+  position: absolute;
+  top: 90px;
+  left: 90px;
+  width: clamp(420px, 60vw, 980px);
+  height: clamp(300px, 60vh, 80vh);
+  background: rgba(8,16,28,0.95);
+  border: 1px solid rgba(0,255,255,0.25);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,255,255,0.12);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.os-window .window-header {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px 0 12px;
+  background: linear-gradient(180deg, rgba(0,255,255,0.12), rgba(0,255,255,0.06));
+  cursor: move;
+  user-select: none;
+}
+
+.os-window .window-title {
+  color: #b0d4f0;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.os-window .window-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.os-window .btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: #d6eefc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.os-window .btn:hover { 
+  border-color: rgba(0,255,255,0.4); 
+}
+
+.os-window .window-body {
+  width: 100%;
+  height: calc(100% - 42px);
+  background: rgba(2,8,22,0.95);
+}
+
+.os-window iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.os-window.active { box-shadow: 0 14px 44px rgba(0,0,0,0.5), 0 0 36px rgba(0,255,255,0.18); }

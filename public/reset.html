@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
+</head>
+<body>
+    <h2>Reset Password</h2>
+    <form id="reset-form">
+        <input type="password" id="new-password" placeholder="New Password" required><br>
+        <button type="submit">Reset</button>
+    </form>
+    <div id="reset-message"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get('user');
+        document.getElementById('reset-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('new-password').value;
+            const res = await fetch('/api/reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password })
+            });
+            const data = await res.json();
+            document.getElementById('reset-message').textContent = data.message;
+            if (data.success) setTimeout(() => window.location.href = '/login.html', 1500);
+        };
+    </script>
+</body>
+</html>

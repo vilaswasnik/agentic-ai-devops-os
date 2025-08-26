@@ -1,0 +1,422 @@
+{
+  "skills": [
+    {
+      "name": "Azure DevOps",
+      "description": "CI/CD pipelines",
+      "example_queries": [
+        "What is Azure DevOps?",
+        "How have you used Azure DevOps?",
+        "Tell me about your experience with Azure DevOps.",
+        "Do you know CI/CD tools?"
+      ]
+    },
+    {
+      "name": "Urban Code Deploy",
+      "description": "Deployment automation",
+      "example_queries": [
+        "What is Urban Code Deploy?",
+        "How do you use Urban Code Deploy?",
+        "Explain Urban Code Deploy.",
+        "Which deployment tools do you use?"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certified Agile Scrum Master",
+      "description": "Certification in Agile Scrum methodologies.",
+      "example_queries": [
+        "Are you a certified Scrum Master?",
+        "What certifications do you have?",
+        "Tell me about your Agile certifications."
+      ]
+    },
+    {
+      "name": "Red Hat Certified System Administrator",
+      "description": "Certification for Linux system administration.",
+      "example_queries": [
+        "Are you Red Hat certified?",
+        "Do you have Linux certifications?",
+        "What is your experience with Red Hat?"
+      ]
+    }
+  ],
+  "professional_experience": [
+    {
+      "client": "MetLife Insurance USA",
+      "role": "DevOps Engineer",
+      "project": "Deployment services (CI/CD) - DevOps team",
+      "location": "Cary, NC, USA",
+      "period": "May 2022 – Present",
+      "responsibilities": [
+        "Automated deployments using Urban Code Deploy, Azure DevOps, and Ansible.",
+        "Built and maintained CI/CD pipelines.",
+        "Configured and deployed IIS .NET, Apache, WebSphere, Liberty, and Tomcat applications."
+      ],
+      "example_queries": [
+        "Tell me about your work at MetLife Insurance.",
+        "What did you do as a DevOps Engineer?",
+        "Describe your responsibilities at MetLife.",
+        "What projects have you worked on?"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Engineering - Computer Technology",
+      "university": "Rashtrasant Tukadoji Maharaj Nagpur University",
+      "year": "2010",
+      "example_queries": [
+        "What is your educational background?",
+        "Where did you study?",
+        "Tell me about your degree."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "name": "user_interface",
+      "description": "The user interacts with the chatbot by typing commands like 'run getosdetails playbook'. The chatbot sends the command to chatbot.js.",
+      "example_queries": [
+        "How do I interact with the chatbot?",
+        "What commands can I type in the chatbot?"
+      ]
+    },
+    {
+      "name": "chatbot_js",
+      "description": "Handles user input and determines the appropriate action. Calls functions like executegetosdetailsPlaybook from playbook.js.",
+      "example_queries": [
+        "What does chatbot.js do?",
+        "How does the chatbot process my input?"
+      ]
+    }
+  ],
+  "project_overview": [
+    {
+      "purpose": "The UCD AI Agent project is a chatbot-based automation tool designed to execute various system-level scripts and commands.",
+      "key_features": [
+        "Execute shell scripts like hello.sh and ansible.sh.",
+        "Run Ansible playbooks for system automation.",
+        "Fetch OS details and restart services.",
+        "Interactive chatbot interface with predefined responses and spell correction.",
+        "Speech synthesis for bot responses."
+      ],
+      "example_queries": [
+        "What is the purpose of this project?",
+        "What are the key features of the UCD AI Agent?"
+      ]
+    }
+  ],
+  "software_requirements": [
+    {
+      "installed_software": [
+        "Node.js: Backend server for handling requests and executing scripts.",
+        "Ansible: For running playbooks and automating system tasks.",
+        "Web Browser: For accessing the chatbot interface.",
+        "Linux Shell: For executing shell scripts."
+      ],
+      "dependencies": [
+        "Frontend: HTML, CSS, JavaScript.",
+        "Backend: Node.js with Express.js.",
+        "Other Tools: Speech synthesis API for voice responses."
+      ],
+      "example_queries": [
+        "What software is required for this project?",
+        "What dependencies does the chatbot have?"
+      ]
+    }
+  ],
+  "project_logic": {
+    "core_functionalities": {
+      "chatbot_interface": "Accepts user input and matches it with predefined commands. Provides responses based on predefined answers or executes specific functions.",
+      "script_execution": "Executes shell scripts like hello.sh and ansible.sh via backend endpoints. Displays the output or error messages in the chat interface.",
+      "ansible_playbooks": "Executes playbooks for tasks like fetching OS details or restarting services.",
+      "spell_correction": "Corrects minor spelling mistakes in user input to improve command recognition.",
+      "speech_synthesis": "Converts bot responses into speech for better user interaction."
+    },
+    "example_queries": [
+      "What are the core functionalities of the chatbot?",
+      "How does the chatbot execute scripts?",
+      "Can the chatbot correct spelling mistakes?"
+    ]
+  },
+  "design": {
+    "frontend": {
+      "description": "HTML/CSS provides the chatbot interface. JavaScript handles user input, bot responses, and API calls.",
+      "example_queries": [
+        "What technologies are used in the frontend?",
+        "How does the chatbot handle user input?"
+      ]
+    },
+    "backend": {
+      "description": "Node.js processes user requests and executes scripts.",
+      "endpoints": [
+        "/run-script: Executes shell scripts.",
+        "/run-script-installansible: Installs Ansible."
+      ],
+      "example_queries": [
+        "What are the backend endpoints?",
+        "How does the backend process requests?"
+      ]
+    },
+    "data_flow": "User sends a message via the chat interface. The message is processed and matched with predefined commands. If a script needs to be executed, a request is sent to the backend. The backend executes the script and returns the output. The output is displayed in the chat interface.",
+    "example_queries": [
+      "Can you explain the data flow of the chatbot?",
+      "How is the output sent back to the user?"
+    ]
+  },
+  "execution_flow": {
+    "example": "Executing hello.sh",
+    "steps": [
+      "User Input: The user types 'execute hello.sh' in the chat.",
+      "Frontend: The executeHelloScript() function is called. A POST request is sent to the /run-script endpoint with the script name.",
+      "Backend: The server executes hello.sh using a child process. The output or error is returned as a JSON response.",
+      "Frontend: The response is displayed in the chat interface."
+    ],
+    "example_queries": [
+      "How does the chatbot execute hello.sh?",
+      "What is the execution flow for running a script?"
+    ]
+  },
+  "advantages": [
+    "Simplifies system automation with a user-friendly chatbot interface.",
+    "Reduces manual effort by automating repetitive tasks.",
+    "Provides real-time feedback for executed commands.",
+    "Supports spell correction for better user experience."
+  ],
+  "disadvantages": [
+    "Limited to predefined commands and scripts.",
+    "Requires backend setup and proper script permissions.",
+    "Dependent on the availability of required software (e.g., Ansible)."
+  ],
+  "how_to_use": {
+    "setup": [
+      "Clone the repository.",
+      "Install dependencies.",
+      "Start the server.",
+      "Open the chatbot interface in a web browser."
+    ],
+    "executing_commands": "Type commands like 'execute hello.sh' or 'install ansible' in the chat input box. The bot will process the command and display the output.",
+    "example_queries": [
+      "How do I set up the chatbot?",
+      "How do I execute commands using the chatbot?"
+    ]
+  },
+  "problems_solved": [
+    "Automates repetitive system tasks.",
+    "Provides a centralized interface for managing scripts and playbooks.",
+    "Reduces the need for manual command-line operations."
+  ],
+  "future_scope": [
+    "Add support for more scripts and playbooks.",
+    "Implement user authentication for secure access.",
+    "Enhance the chatbot with AI-based natural language processing.",
+    "Add logging and monitoring for executed commands.",
+    "Support multi-platform compatibility (Windows, macOS)."
+  ],
+  "full_functionality_overview": {
+    "project_summary": "The UCD AI Agent is a chatbot-driven automation platform that allows users to execute system-level scripts, Ansible playbooks, and retrieve knowledge from documents using both intent-based and Retrieval-Augmented Generation (RAG) approaches. It integrates OpenAI's GPT models for natural language understanding and advanced Q&A.",
+    "core_components": {
+      "frontend": "A web-based chat interface built with HTML, CSS, and JavaScript. It captures user input, displays bot responses, and communicates with backend endpoints via HTTP requests.",
+      "backend": "A Node.js (Express) server that processes user requests, matches intents, executes scripts/playbooks, and handles RAG-based Q&A using OpenAI APIs.",
+      "scripts_and_playbooks": "Shell scripts and Ansible playbooks are stored on the server. The backend executes these based on user commands.",
+      "knowledge_documents": "Structured JSON files (e.g., resume, knowledge base) stored in /public/scripts/documents/. Used for RAG-based Q&A."
+    },
+    "openai_integration": {
+      "intent_mapping": "When a user sends a message, the frontend first checks for an exact match in predefined commands (from trainingData.json). If not found, the message is sent to the /chatbot endpoint. The backend uses OpenAI's GPT model to map the user's message to the closest predefined command, ensuring safe and controlled automation.",
+      "rag_resume_qa": "For resume-related questions, the frontend sends the query to /rag-resume. The backend embeds the question using OpenAI's embedding API, finds the most relevant chunk from the resume embeddings, and uses GPT to generate a context-aware answer.",
+      "rag_knowledgebase_qa": "For project or architecture questions, the frontend sends the query to /rag-knowledgebase. The backend embeds the question, finds the best-matching chunk from the knowledge base embeddings, and uses GPT to answer based on that context."
+    },
+    "embedding_setup": {
+      "resume_embeddings": "The resume (knowledgeBase_resume.json) is split into meaningful text chunks. Each chunk is embedded using OpenAI's text-embedding-ada-002 model. The resulting embeddings and their text are saved in knowledgeBase_resume_embeddings.json.",
+      "knowledgebase_embeddings": "The knowledge base (knowledgeBase.json) is split into chunks (typically each component or section). Each chunk is embedded using OpenAI's embedding API and saved in knowledgeBase_embeddings.json.",
+      "embedding_scripts": {
+        "generateKnowledgeBaseEmbeddings.js": "A Node.js script that reads knowledgeBase.json, chunks the content, calls OpenAI's embedding API, and writes the output to knowledgeBase_embeddings.json.",
+        "embed_resume.py": "A Python (or JS) script that reads the resume, chunks it, calls OpenAI's embedding API, and writes the output to knowledgeBase_resume_embeddings.json."
+      },
+      "location": "All embedding files are stored in /public/scripts/documents/ for backend access."
+    },
+    "end_to_end_flow": [
+      "1. User enters a message in the chat UI.",
+      "2. Frontend checks for an exact match in predefined commands (trainingData.json).",
+      "3. If matched, the corresponding script/playbook is executed or a predefined response is shown.",
+      "4. If not matched, the message is sent to the /chatbot endpoint for intent mapping using OpenAI.",
+      "5. For resume or knowledge base questions, the frontend routes the message to /rag-resume or /rag-knowledgebase.",
+      "6. The backend embeds the question, finds the most relevant chunk from the corresponding embeddings file, and uses OpenAI GPT to generate a context-aware answer.",
+      "7. The answer or script output is sent back to the frontend and displayed to the user."
+    ],
+    "how_to_extend": [
+      "Add new scripts or playbooks to the server and update trainingData.json for new commands.",
+      "Add new knowledge documents (as JSON) to /public/scripts/documents/ and generate embeddings for RAG Q&A.",
+      "Update the embedding scripts and rerun them whenever you update your documents.",
+      "Enhance the frontend to recognize new types of queries and route them to the appropriate backend endpoint."
+    ],
+    "example_questions": [
+      "How does the chatbot decide which script to run?",
+      "How does the RAG setup work?",
+      "How is OpenAI integrated in this project?",
+      "How are embeddings generated and used?",
+      "How can I add new knowledge to the chatbot?",
+      "What is the end-to-end flow when I ask a question?",
+      "How does the chatbot answer questions about the project architecture?"
+    ]
+  },
+  "rag_and_knowledgebase_setup": {
+    "overview": "The project uses Retrieval-Augmented Generation (RAG) to answer questions about your resume, project knowledge base, and UrbanCode Deploy tool. RAG combines document retrieval using vector embeddings with OpenAI's GPT model to generate context-aware answers.",
+    "step_by_step_setup": [
+      "1. Prepare your knowledge documents as structured JSON files (e.g., knowledgeBase.json, knowledgeBase_resume.json, urbancode_deploy_knowledgebase.json) and place them in /public/scripts/documents/.",
+      "2. For each document, generate embeddings using OpenAI's embedding API (text-embedding-ada-002). Use utility scripts like generateKnowledgeBaseEmbeddings.js or generateUrbanCodeDeployEmbeddings.js to chunk the document and create an embeddings file (e.g., knowledgeBase_embeddings.json, urbancode_deploy_knowledgebase_embeddings.json).",
+      "3. Store the embeddings files in /public/scripts/documents/ alongside the original documents.",
+      "4. In server.js, load each embeddings file at startup using fs.readFileSync and JSON.parse.",
+      "5. For each knowledge domain (resume, project, UrbanCode Deploy), create a dedicated RAG endpoint (e.g., /rag-resume, /rag-knowledgebase, /rag-urbancode). Each endpoint receives a user question, embeds it using OpenAI, finds the most similar chunk from the relevant embeddings file using cosine similarity, and sends the chunk plus question to OpenAI's GPT model to generate an answer.",
+      "6. The frontend routes user questions to the appropriate endpoint based on keywords or context (e.g., UrbanCode Deploy questions go to /rag-urbancode).",
+      "7. The answer from the backend is displayed in the chatbot interface."
+    ],
+    "adding_new_knowledgebase": [
+      "1. Create a new JSON document describing the tool, process, or domain you want to support.",
+      "2. Write a script (Node.js or Python) to chunk the document and generate embeddings using OpenAI's embedding API.",
+      "3. Save the embeddings file in /public/scripts/documents/.",
+      "4. Add a new RAG endpoint in server.js that loads the embeddings and implements the retrieval and generation logic.",
+      "5. Update the frontend to route relevant questions to the new endpoint."
+    ],
+    "urban_code_deploy_rag": {
+      "document": "urbancode_deploy_knowledgebase.json",
+      "embeddings_file": "urbancode_deploy_knowledgebase_embeddings.json",
+      "endpoint": "/rag-urbancode",
+      "setup_steps": [
+        "1. Place urbancode_deploy_knowledgebase.json in /public/scripts/documents/.",
+        "2. Run generateUrbanCodeDeployEmbeddings.js to create urbancode_deploy_knowledgebase_embeddings.json.",
+        "3. In server.js, load the embeddings file and add the /rag-urbancode endpoint.",
+        "4. The endpoint embeds the user's question, finds the most relevant chunk, and uses OpenAI GPT to answer using that context."
+      ]
+    },
+    "example_questions": [
+      "How is RAG set up in this project?",
+      "How do I add a new knowledge base for RAG?",
+      "How does the UrbanCode Deploy Q&A work?",
+      "What are the steps to enable RAG for a new document?",
+      "How does the backend use embeddings for Q&A?",
+      "How do I generate embeddings for a new knowledge base?"
+    ]
+  },
+  "resume": {
+    "name": "Vilas Wasnik",
+    "title": "Sr. DevOps Engineer (AI Platform Engineer, AI DevOps, DevOps, Dev-Sec-Ops)",
+    "contact": {
+      "phone": "+1 470 232 3210",
+      "email": "vilas.wasnik@live.com",
+      "linkedin": "www.linkedin.com/in/vilas-wasnik-6b7a21100"
+    },
+    "summary": "Accomplished IT professional with over 14 years of experience in infrastructure Platform support, DevOps technology, and Artificial Intelligence. Demonstrated expertise in managing and deploying complex systems using tools such as Urban Code Deploy, Azure DevOps, Ansible, Git, GitHub, Docker, Kubernetes, AWS, and AI platforms. Proven ability to lead projects, automate processes, and ensure robust security compliance.",
+    "skills": [
+      "Azure DevOps", "Urban Code Deploy", "Ansible", "AI (GitHub Copilot, Amazon Q, Bedrock)", "Kubernetes", "Chef", "Docker", "Jenkins", "Git", "GitHub", "WebSphere", "AWS", "CI/CD", "Python", "Node.js", "Linux", "Windows", "Oracle Hyperion", "Scrum", "Agile"
+    ],
+    "cloud": [
+      "Azure Cloud", "AWS Cloud", "Azure AI platform", "AWS AI platform", "GitHub Code spaces"
+    ],
+    "languages": [
+      "Ansible Playbook", "Azure Pipeline", "Shell Script", "Python", "PowerShell", "HTML", "JavaScript", "Node.js"
+    ],
+    "roles": [
+      "DevOps Engineer", "AI DevOps Engineer", "Infrastructure Consultant", "Oracle Hyperion Engineer", "IIS .net / Apache Engineer", "Platform Engineer", "Scrum Master"
+    ],
+    "operating_systems": [
+      "Red Hat Linux", "Windows", "AIX", "Ubuntu", "CentOS", "Rocky Linux", "MacBook Pro"
+    ],
+    "professional_experience": [
+      {
+        "client": "MetLife Insurance USA",
+        "project": "Deployment services (CI/CD) - DevOps team",
+        "location": "Cary, NC, USA",
+        "period": "May 2022 – Present",
+        "responsibilities": [
+          "Certified Urban Code Deploy DevOps Engineer with experience in Azure DevOps, Ansible, Git, JFrog, Jenkins, Kubernetes, Docker, Chef, and 1Desk.",
+          "Automated deployments using Urban Code Deploy, Azure DevOps, and Ansible.",
+          "Built and maintained CI/CD pipelines.",
+          "Configured and deployed IIS .NET, Apache, WebSphere, Liberty, and Tomcat applications.",
+          "Planned and designed Windows and Linux application platform projects.",
+          "Troubleshooting, root cause analysis, and vendor collaboration.",
+          "Leadership roles: Scrum Master, Product Owner, Developer."
+        ]
+      },
+      {
+        "client": "MetLife Insurance USA",
+        "project": "Deployment services (CI/CD) - DevOps team",
+        "location": "Pune, INDIA",
+        "period": "May 2019 – 2022",
+        "responsibilities": [
+          "Automated deployments and CI/CD using Urban Code Deploy, Azure DevOps, and Ansible.",
+          "Configured and deployed applications on various platforms.",
+          "Leadership roles: Scrum Master, Product Owner, Developer."
+        ]
+      },
+      {
+        "client": "MetLife Insurance USA",
+        "project": "Deployment services (CI/CD) - DevOps team",
+        "location": "Cary, NC, USA",
+        "period": "May 2013 – 2019",
+        "responsibilities": [
+          "Designed and built application platforms.",
+          "Installed and configured vendor applications.",
+          "Planned and executed migrations and upgrades.",
+          "Collaborated with vendors and performed troubleshooting."
+        ]
+      },
+      {
+        "client": "Genworth Financial",
+        "project": "Genius",
+        "location": "Mumbai, INDIA",
+        "period": "May 2011 – 2013",
+        "responsibilities": [
+          "Windows Server Administration.",
+          "Infrastructure setup and security.",
+          "WebSphere Administration.",
+          "Team coordination and server administration."
+        ]
+      },
+      {
+        "organization": "HCL Infosystems Ltd",
+        "client": "District court Nagpur",
+        "project": "District Court Nagpur Infrastructure Support",
+        "location": "Nagpur, INDIA",
+        "period": "May 2010 – 2011",
+        "responsibilities": [
+          "Platform administration and engineering support.",
+          "Application deployment and technical assistance.",
+          "Vendor coordination and server configuration.",
+          "Database migration and hardware management."
+        ]
+      }
+    ],
+    "certifications": [
+      "Certified Agile Scrum Master",
+      "Red Hat Certified System Administrator",
+      "MCITP Microsoft Certified IT Professional",
+      "Safe Agile Practitioner and Certified Scrum Master (CSM)",
+      "Blockchain Developer Certificate (Edureka)",
+      "Urban Code Deploy"
+    ],
+    "education": [
+      {
+        "degree": "Bachelor of Engineering - Computer Technology",
+        "university": "Rashtrasant Tukadoji Maharaj Nagpur University",
+        "year": "2010"
+      }
+    ],
+    "publications_presentations": [
+      "Oracle Hyperion Infrastructure – Explained",
+      "Infor Sunsystems – Explained",
+      "Blockchain – Explained",
+      "AI DevOps Agent, Ansible Playbook automation – Explained",
+      "Automations – Explained, Scrum Daily standup, Demo retro and Inspect and adapt"
+    ],
+    "external_training": [
+      "Oracle Hyperion Financial Management, Planning and Budgeting Cloud Service (PBCS)",
+      "IIS, Cloud, Windows administration, Advanced Scrum and PMI ACP",
+      "Artificial Intelligence with AWS, Copilot, ChatGPT",
+      "Ansible",
+      "AWS Cloud and Azure administration",
+      "Azure DevOps"
+    ]
+  }
+}

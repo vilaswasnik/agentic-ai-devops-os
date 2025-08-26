@@ -1,0 +1,19 @@
+{
+    "hostRequirements": {
+        "storage": "32gb" // Adjust to match your current storage
+    },
+    "name": "ucdaiagent",
+    "build": {
+        "dockerfile": "../Dockerfile",
+        "context": ".."
+    },
+    "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+    },
+    "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "redhat.ansible"
+    ],
+    "postCreateCommand": "npm install && ansible --version"
+}

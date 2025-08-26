@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base AI Agent - AI Memory Bank</title>
+    <link rel="stylesheet" href="styles/agent-interfaces.css">
+    <script type="module" src="scripts/aiagent.js"></script>
+</head>
+<body class="knowledge-theme">
+    <!-- Knowledge-specific Background -->
+    <div class="agent-background knowledge-bg">
+        <div class="data-grid"></div>
+        <div class="knowledge-particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="agent-nav">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='/aiagent.html'">
+                ← Back to Neural OS
+            </button>
+        </div>
+        <div class="nav-center">
+            <div class="agent-identity">
+                <span class="agent-icon">🧬</span>
+                <span class="agent-name">Knowledge Base AI Agent</span>
+                <span class="agent-status">MEMORY BANK ONLINE</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="neural-pulse knowledge-pulse"></div>
+        </div>
+    </nav>
+
+    <!-- Main Interface -->
+    <div class="agent-interface">
+        <!-- Left Panel - Knowledge Tools -->
+                <!-- Left Panel - Knowledge Tools -->
+        <aside class="agent-sidebar knowledge-sidebar">
+            <div class="sidebar-header">
+                <h3>KNOWLEDGE MATRIX</h3>
+                <div class="neural-line knowledge-line"></div>
+            </div>
+            
+            <!-- Document Manager Link -->
+            <div class="tool-section">
+                <button class="tool-btn" onclick="window.location.href='/document-manager.html'" style="width: 100%; margin-bottom: 15px; background: linear-gradient(135deg, #28a745, #20c997); border: none; padding: 12px; border-radius: 8px; color: white; cursor: pointer;">
+                    <span class="tool-icon">📁</span>
+                    <span class="tool-name">Manage Documents</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content - Knowledge Chat -->
+        <main class="agent-main">
+            <div class="agent-chat-container" id="chat-container">
+                <div class="chat-header knowledge-header">
+                    <div class="header-left">
+                        <div class="agent-avatar knowledge-avatar">
+                            <div class="avatar-pulse"></div>
+                            <span>🧬</span>
+                        </div>
+                        <div class="header-info">
+                            <h3>Knowledge Base AI Agent</h3>
+                            <p>AI Memory Bank & Learning System</p>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="knowledge-status">
+                            <div class="status-indicator active"></div>
+                            <span>Neural Memory Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-box">
+                    <div class="welcome-message">
+                        <div class="message bot knowledge-message">
+                            <div class="message-avatar">🧬</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender-name">Knowledge Base AI Agent</span>
+                                    <span class="message-time">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    <h4>🧬 Knowledge Neural Network Connected</h4>
+                                    <p>Welcome to the AI Knowledge Bank! I'm your specialized AI for accessing vast repositories of DevOps knowledge, best practices, and technical documentation.</p>
+                                    
+                                    <div class="capabilities-showcase">
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🔍</span>
+                                            <span class="cap-text">Smart Search</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">📚</span>
+                                            <span class="cap-text">Documentation</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">💡</span>
+                                            <span class="cap-text">Best Practices</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🎯</span>
+                                            <span class="cap-text">Solutions</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="knowledge-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-number">10K+</div>
+                                            <div class="stat-label">Documents</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-number">500+</div>
+                                            <div class="stat-label">Tutorials</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-number">1K+</div>
+                                            <div class="stat-label">Examples</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-number">24/7</div>
+                                            <div class="stat-label">Available</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="quick-commands">
+                                        <p><strong>Try these queries:</strong></p>
+                                        <ul>
+                                            <li>"how to setup CI/CD pipeline" - DevOps workflows</li>
+                                            <li>"docker best practices" - Container knowledge</li>
+                                            <li>"troubleshoot deployment issues" - Problem solving</li>
+                                            <li>"kubernetes security guide" - Security practices</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="neural-input-container knowledge-input">
+                    <div class="input-wrapper">
+                        <div class="input-icon">🧬</div>
+                        <input type="text" 
+                               class="neural-input" 
+                               placeholder="Ask me anything about DevOps... (e.g., 'how to setup monitoring', 'best practices')"
+                               id="user-input">
+            <button id="newchat-button" class="send-btn knowledge-send" title="New chat" style="background:#0b5ed7;border-color:#0b5ed7;margin-right:6px">+ New</button>
+            <button id="send-button" class="send-btn knowledge-send">
+                            <span class="send-icon">🔍</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden elements -->
+    <div id="bot-mouth" style="display: none;"></div>
+
+    <script>
+        const KN_HISTORY_KEY = 'knowledge_history_v1';
+        const AGENT_ID = 'knowledge';
+        const SESSION_ID = (()=>{
+            const key = 'knowledge_session_id';
+            let v = localStorage.getItem(key);
+            if (!v) { v = Math.random().toString(36).slice(2); localStorage.setItem(key, v); }
+            return v;
+        })();
+        function saveKnHistory(){
+            try {
+                const messages = Array.from(document.querySelectorAll('#chat-box .message')).map(el => ({
+                    role: el.classList.contains('user') ? 'user' : 'bot',
+                    content: el.querySelector('.message-text, .message-content')?.innerHTML || el.querySelector('.message-content')?.innerHTML || ''
+                }));
+                localStorage.setItem(KN_HISTORY_KEY, JSON.stringify(messages.slice(-50)));
+            } catch(_) {}
+        }
+                function renderKnHistory(){
+                        const box = document.getElementById('chat-box');
+                        box.innerHTML = '';
+                        try {
+                                const raw = localStorage.getItem(KN_HISTORY_KEY);
+                                const localMsgs = raw ? JSON.parse(raw) : [];
+                                fetch(`/api/chat/history?agent=${AGENT_ID}&session=${SESSION_ID}`)
+                                    .then(r=>r.ok?r.json():{messages:localMsgs}).then(data=>{
+                                        const msgs = Array.isArray(data.messages) ? data.messages : localMsgs;
+                                        for (const m of msgs) {
+                                                const el = document.createElement('div');
+                                                el.className = `message ${m.role === 'user' ? 'user' : 'bot'} knowledge-message`;
+                                                const content = document.createElement('div');
+                                                content.className = 'message-content';
+                                                content.innerHTML = m.content || '';
+                                                el.appendChild(content);
+                                                box.appendChild(el);
+                                        }
+                                        box.scrollTop = box.scrollHeight;
+                                    }).catch(()=>{
+                                        // fall back silently
+                                    });
+                        } catch(_) {}
+                }
+        function addKnMessage(text, role){
+            const box = document.getElementById('chat-box');
+            const el = document.createElement('div');
+            el.className = `message ${role} knowledge-message`;
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            // Support HTML content for bot messages
+            if (role === 'bot') {
+                content.innerHTML = text;
+            } else {
+                content.textContent = text;
+            }
+            
+            el.appendChild(content);
+            box.appendChild(el);
+            box.scrollTop = box.scrollHeight;
+            saveKnHistory();
+            // push to server
+            try {
+                const raw = localStorage.getItem(KN_HISTORY_KEY);
+                const msgs = raw ? JSON.parse(raw) : [];
+                fetch('/api/chat/history', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ agent: AGENT_ID, session: SESSION_ID, messages: msgs }) });
+            } catch(_) {}
+        }
+
+        // Knowledge Base specific response handler
+        async function handleKnowledgeQuery(userMessage) {
+            const messageId = Date.now();
+            
+            // Add user message
+            addKnMessage(userMessage, 'user');
+            
+            // Show searching message
+            const searchingEl = document.createElement('div');
+            searchingEl.className = 'message bot knowledge-message';
+            searchingEl.setAttribute('data-message-id', messageId);
+            const searchingContent = document.createElement('div');
+            searchingContent.className = 'message-content';
+            searchingContent.innerHTML = '🔍 Searching knowledge base...';
+            searchingEl.appendChild(searchingContent);
+            document.getElementById('chat-box').appendChild(searchingEl);
+            document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+
+            try {
+                const response = await fetch('/rag-knowledgebase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: userMessage })
+                });
+                
+                const data = await response.json();
+                
+                // Remove searching message
+                const searchingMsg = document.querySelector(`[data-message-id="${messageId}"]`);
+                if (searchingMsg) searchingMsg.remove();
+                
+                if (data.answer) {
+                    // Limit to 10 lines and add word-by-word animation
+                    let formattedAnswer = data.answer;
+                    
+                    // Split into lines and limit to 10
+                    const lines = formattedAnswer.split('\n').slice(0, 10);
+                    formattedAnswer = lines.join('\n');
+                    
+                    // Convert formatting
+                    formattedAnswer = formattedAnswer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    formattedAnswer = formattedAnswer.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                    formattedAnswer = formattedAnswer.replace(/\n/g, '<br>');
+                    formattedAnswer = formattedAnswer.replace(/^• /gm, '• ');
+                    formattedAnswer = formattedAnswer.replace(/^- /gm, '• ');
+                    
+                    // Add response with word-by-word animation
+                    addKnMessageWordByWord(formattedAnswer, 'bot');
+                } else if (data.error) {
+                    addKnMessage(`❌ Error: ${data.error}`, 'bot');
+                } else {
+                    addKnMessage('❌ No response received from knowledge base.', 'bot');
+                }
+            } catch (error) {
+                // Remove searching message
+                const searchingMsg = document.querySelector(`[data-message-id="${messageId}"]`);
+                if (searchingMsg) searchingMsg.remove();
+                
+                console.error('Knowledge base error:', error);
+                addKnMessage('❌ Error connecting to knowledge base. Please try again.', 'bot');
+            }
+        }
+
+        // Word-by-word animation function
+        function addKnMessageWordByWord(text, role) {
+            const box = document.getElementById('chat-box');
+            const el = document.createElement('div');
+            el.className = `message ${role} knowledge-message`;
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            el.appendChild(content);
+            box.appendChild(el);
+            
+            // Split text into words while preserving HTML tags
+            const words = text.split(/(\s+|<[^>]*>)/);
+            let currentIndex = 0;
+            
+            function typeNextWord() {
+                if (currentIndex < words.length) {
+                    content.innerHTML += words[currentIndex];
+                    currentIndex++;
+                    box.scrollTop = box.scrollHeight;
+                    
+                    // Adjust speed: 100ms for normal words, 0ms for HTML tags and spaces
+                    const delay = words[currentIndex - 1].match(/<[^>]*>|\s/) ? 0 : 100;
+                    setTimeout(typeNextWord, delay);
+                } else {
+                    // Animation complete, save to history
+                    saveKnHistory();
+                    try {
+                        const raw = localStorage.getItem(KN_HISTORY_KEY);
+                        const msgs = raw ? JSON.parse(raw) : [];
+                        fetch('/api/chat/history', { 
+                            method:'POST', 
+                            headers:{'Content-Type':'application/json'}, 
+                            body: JSON.stringify({ agent: AGENT_ID, session: SESSION_ID, messages: msgs }) 
+                        });
+                    } catch(_) {}
+                }
+            }
+            
+            typeNextWord();
+        }
+        // Knowledge-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            renderKnHistory();
+            
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const newBtn = document.getElementById('newchat-button');
+            
+            // Handle send button click
+            if (sendButton) {
+                sendButton.addEventListener('click', () => {
+                    const message = userInput.value.trim();
+                    if (message) {
+                        handleKnowledgeQuery(message);
+                        userInput.value = '';
+                    }
+                });
+            }
+            
+            // Handle Enter key press
+            if (userInput) {
+                userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const message = userInput.value.trim();
+                        if (message) {
+                            handleKnowledgeQuery(message);
+                            userInput.value = '';
+                        }
+                    }
+                });
+            }
+            
+            // Handle new chat button
+            if (newBtn) newBtn.addEventListener('click', () => { 
+                try { localStorage.removeItem(KN_HISTORY_KEY); } catch(_) {}
+                document.getElementById('chat-box').innerHTML=''; 
+                document.getElementById('user-input').value='';
+                fetch('/api/chat/history', { method:'DELETE', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ agent: AGENT_ID, session: SESSION_ID }) }).catch(()=>{});
+            });
+            
+            setTimeout(() => {
+                document.getElementById('user-input').focus();
+            }, 1000);
+
+            document.title = 'Knowledge Base AI Agent - Active';
+        });
+    </script>
+</body>
+</html>

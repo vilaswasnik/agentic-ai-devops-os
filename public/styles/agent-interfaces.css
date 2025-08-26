@@ -1,0 +1,970 @@
+/* Agent-Specific Interfaces CSS */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;700&display=swap');
+
+/* Base Variables */
+:root {
+    /* Ansible Theme */
+    --ansible-primary: #ff4444;
+    --ansible-secondary: #ff6b6b;
+    --ansible-glow: #ff4444;
+    --ansible-bg: rgba(255, 68, 68, 0.1);
+    
+    /* Terraform Theme */
+    --terraform-primary: #623ce4;
+    --terraform-secondary: #7c5ce8;
+    --terraform-glow: #623ce4;
+    --terraform-bg: rgba(98, 60, 228, 0.1);
+    
+    /* Shell Theme */
+    --shell-primary: #00ff00;
+    --shell-secondary: #33ff33;
+    --shell-glow: #00ff00;
+    --shell-bg: rgba(0, 255, 0, 0.1);
+    
+    /* Knowledge Theme */
+    --knowledge-primary: #9b59b6;
+    --knowledge-secondary: #bb77d6;
+    --knowledge-glow: #9b59b6;
+    --knowledge-bg: rgba(155, 89, 182, 0.1);
+    
+    /* Common */
+    --neural-dark: #020816;
+    --glass-bg: rgba(10, 22, 40, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #b0d4f0;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Theme-specific body backgrounds */
+.ansible-theme {
+    background: linear-gradient(135deg, #1a0606 0%, #2d0a0a 50%, #4a1010 100%);
+}
+
+.terraform-theme {
+    background: linear-gradient(135deg, #0a0620 0%, #15102d 50%, #251a4a 100%);
+}
+
+.shell-theme {
+    background: linear-gradient(135deg, #061a06 0%, #0a2d0a 50%, #104a10 100%);
+}
+
+.knowledge-theme {
+    background: linear-gradient(135deg, #1a061a 0%, #2d0a2d 50%, #4a104a 100%);
+}
+
+/* Agent Backgrounds */
+.agent-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+/* Ansible Background */
+.ansible-bg .automation-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 68, 68, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 68, 68, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: grid-move 25s linear infinite;
+}
+
+.ansible-bg .ansible-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(2px 2px at 30px 40px, var(--ansible-glow), transparent),
+                radial-gradient(2px 2px at 80px 20px, var(--ansible-secondary), transparent);
+    background-repeat: repeat;
+    background-size: 150px 100px;
+    animation: particles-float 12s ease-in-out infinite;
+}
+
+/* Terraform Background */
+.terraform-bg .infrastructure-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(98, 60, 228, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(98, 60, 228, 0.1) 1px, transparent 1px);
+    background-size: 70px 70px;
+    animation: grid-move 30s linear infinite;
+}
+
+.terraform-bg .terraform-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(3px 3px at 25px 35px, var(--terraform-glow), transparent),
+                radial-gradient(2px 2px at 75px 25px, var(--terraform-secondary), transparent);
+    background-repeat: repeat;
+    background-size: 180px 120px;
+    animation: particles-float 18s ease-in-out infinite;
+}
+
+/* Shell Background */
+.shell-bg .matrix-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid-move 15s linear infinite;
+}
+
+.shell-bg .shell-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(1px 1px at 20px 30px, var(--shell-glow), transparent),
+                radial-gradient(2px 2px at 60px 40px, var(--shell-secondary), transparent);
+    background-repeat: repeat;
+    background-size: 120px 80px;
+    animation: particles-float 10s ease-in-out infinite;
+}
+
+/* Knowledge Background */
+.knowledge-bg .data-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(155, 89, 182, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155, 89, 182, 0.1) 1px, transparent 1px);
+    background-size: 55px 55px;
+    animation: grid-move 20s linear infinite;
+}
+
+.knowledge-bg .knowledge-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(2px 2px at 35px 25px, var(--knowledge-glow), transparent),
+                radial-gradient(1px 1px at 70px 50px, var(--knowledge-secondary), transparent);
+    background-repeat: repeat;
+    background-size: 160px 110px;
+    animation: particles-float 16s ease-in-out infinite;
+}
+
+/* Navigation */
+.agent-nav {
+    background: rgba(10, 22, 40, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.back-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    padding: 10px 20px;
+    color: var(--text-primary);
+    font-family: 'Exo 2', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-5px);
+}
+
+.agent-identity {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Orbitron', monospace;
+}
+
+.agent-identity .agent-icon {
+    font-size: 36px;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.agent-identity .agent-name {
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0 0 20px currentColor;
+}
+
+.agent-identity .agent-status {
+    font-size: 12px;
+    padding: 5px 12px;
+    background: var(--glass-bg);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    opacity: 0.8;
+}
+
+/* Theme-specific navigation colors */
+.ansible-theme .agent-identity .agent-name {
+    color: var(--ansible-primary);
+}
+
+.terraform-theme .agent-identity .agent-name {
+    color: var(--terraform-primary);
+}
+
+.shell-theme .agent-identity .agent-name {
+    color: var(--shell-primary);
+}
+
+.knowledge-theme .agent-identity .agent-name {
+    color: var(--knowledge-primary);
+}
+
+/* Neural Pulse Indicators */
+.neural-pulse {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.ansible-pulse {
+    background: var(--ansible-primary);
+    box-shadow: 0 0 20px var(--ansible-glow);
+}
+
+.terraform-pulse {
+    background: var(--terraform-primary);
+    box-shadow: 0 0 20px var(--terraform-glow);
+}
+
+.shell-pulse {
+    background: var(--shell-primary);
+    box-shadow: 0 0 20px var(--shell-glow);
+}
+
+.knowledge-pulse {
+    background: var(--knowledge-primary);
+    box-shadow: 0 0 20px var(--knowledge-glow);
+}
+
+/* Main Interface Layout */
+.agent-interface {
+    display: flex;
+    height: calc(100vh - 80px);
+    gap: 0;
+}
+
+/* Agent Sidebar */
+.agent-sidebar {
+    width: 380px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--glass-border);
+    padding: 30px 25px;
+    overflow-y: auto;
+}
+
+.sidebar-header h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px currentColor;
+}
+
+.neural-line {
+    height: 3px;
+    background: linear-gradient(90deg, currentColor, transparent);
+    margin-bottom: 30px;
+    box-shadow: 0 0 15px currentColor;
+}
+
+/* Theme-specific sidebar styling */
+.ansible-sidebar .sidebar-header h3,
+.ansible-sidebar .neural-line {
+    color: var(--ansible-primary);
+}
+
+.terraform-sidebar .sidebar-header h3,
+.terraform-sidebar .neural-line {
+    color: var(--terraform-primary);
+}
+
+.shell-sidebar .sidebar-header h3,
+.shell-sidebar .neural-line {
+    color: var(--shell-primary);
+}
+
+.knowledge-sidebar .sidebar-header h3,
+.knowledge-sidebar .neural-line {
+    color: var(--knowledge-primary);
+}
+
+/* Tool Sections */
+.tool-section {
+    margin-bottom: 35px;
+}
+
+.tool-section h4 {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.tool-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 15px 12px;
+    color: var(--text-primary);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.tool-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.tool-btn .tool-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.tool-btn .tool-name {
+    font-weight: 500;
+}
+
+/* Theme-specific tool button hover effects */
+.ansible-theme .tool-btn:hover {
+    border-color: var(--ansible-primary);
+    background: var(--ansible-bg);
+}
+
+.terraform-theme .tool-btn:hover {
+    border-color: var(--terraform-primary);
+    background: var(--terraform-bg);
+}
+
+.shell-theme .tool-btn:hover {
+    border-color: var(--shell-primary);
+    background: var(--shell-bg);
+}
+
+.knowledge-theme .tool-btn:hover {
+    border-color: var(--knowledge-primary);
+    background: var(--knowledge-bg);
+}
+
+/* Template Lists */
+.template-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.template-item {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.template-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.template-icon {
+    font-size: 18px;
+}
+
+.template-name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Agent Main Content */
+.agent-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.agent-chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Chat Headers */
+.chat-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ansible-header {
+    background: linear-gradient(135deg, var(--ansible-bg), rgba(255, 68, 68, 0.05));
+}
+
+.terraform-header {
+    background: linear-gradient(135deg, var(--terraform-bg), rgba(98, 60, 228, 0.05));
+}
+
+.shell-header {
+    background: linear-gradient(135deg, var(--shell-bg), rgba(0, 255, 0, 0.05));
+}
+
+.knowledge-header {
+    background: linear-gradient(135deg, var(--knowledge-bg), rgba(155, 89, 182, 0.05));
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.agent-avatar {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: var(--glass-bg);
+    border: 3px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.ansible-avatar {
+    border-color: var(--ansible-primary);
+}
+
+.terraform-avatar {
+    border-color: var(--terraform-primary);
+}
+
+.shell-avatar {
+    border-color: var(--shell-primary);
+}
+
+.knowledge-avatar {
+    border-color: var(--knowledge-primary);
+}
+
+.avatar-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.header-info h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.header-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.status-indicator.active {
+    background: #00ff88;
+    box-shadow: 0 0 15px #00ff88;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    padding: 25px 30px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Specialized Message Styling */
+.ansible-message {
+    border-left: 4px solid var(--ansible-primary);
+}
+
+.terraform-message {
+    border-left: 4px solid var(--terraform-primary);
+}
+
+.shell-message {
+    border-left: 4px solid var(--shell-primary);
+}
+
+.knowledge-message {
+    border-left: 4px solid var(--knowledge-primary);
+}
+
+.message {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    animation: message-appear 0.5s ease-out;
+}
+
+.message-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--glass-bg);
+    border: 2px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.message-content {
+    flex: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.sender-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.message-time {
+    font-size: 11px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.message-text h4 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.message-text p {
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+/* Capabilities Showcase */
+.capabilities-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.capability-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.cap-icon {
+    font-size: 16px;
+}
+
+/* Terminal Preview (Shell Theme) */
+.terminal-preview {
+    background: #000;
+    border-radius: 8px;
+    margin: 15px 0;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.terminal-header {
+    background: #2d2d2d;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.control.red { background: #ff5f56; }
+.control.yellow { background: #ffbd2e; }
+.control.green { background: #27ca3f; }
+
+.terminal-title {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.terminal-body {
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.prompt {
+    color: var(--shell-primary);
+    font-size: 14px;
+}
+
+.cursor {
+    background: var(--shell-primary);
+    color: #000;
+    animation: blink 1s infinite;
+}
+
+/* Knowledge Stats */
+.knowledge-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    text-align: center;
+    background: rgba(155, 89, 182, 0.1);
+    border: 1px solid rgba(155, 89, 182, 0.2);
+    border-radius: 10px;
+    padding: 15px 10px;
+}
+
+.stat-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--knowledge-primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* Input Containers */
+.neural-input-container {
+    padding: 25px 30px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: 25px;
+    padding: 8px 15px;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+/* Theme-specific input focus */
+.ansible-theme .input-wrapper:focus-within {
+    border-color: var(--ansible-primary);
+    box-shadow: 0 0 25px var(--ansible-glow);
+}
+
+.terraform-theme .input-wrapper:focus-within {
+    border-color: var(--terraform-primary);
+    box-shadow: 0 0 25px var(--terraform-glow);
+}
+
+.shell-theme .input-wrapper:focus-within {
+    border-color: var(--shell-primary);
+    box-shadow: 0 0 25px var(--shell-glow);
+}
+
+.knowledge-theme .input-wrapper:focus-within {
+    border-color: var(--knowledge-primary);
+    box-shadow: 0 0 25px var(--knowledge-glow);
+}
+
+.input-icon {
+    font-size: 22px;
+    text-shadow: 0 0 15px currentColor;
+}
+
+.neural-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-family: 'Exo 2', sans-serif;
+    padding: 15px 0;
+}
+
+.neural-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Send Buttons */
+.send-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px currentColor;
+}
+
+.ansible-send {
+    background: linear-gradient(45deg, var(--ansible-primary), var(--ansible-secondary));
+}
+
+.terraform-send {
+    background: linear-gradient(45deg, var(--terraform-primary), var(--terraform-secondary));
+}
+
+.shell-send {
+    background: linear-gradient(45deg, var(--shell-primary), var(--shell-secondary));
+}
+
+.knowledge-send {
+    background: linear-gradient(45deg, var(--knowledge-primary), var(--knowledge-secondary));
+}
+
+/* Quick Commands */
+.quick-commands {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.quick-commands p {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.quick-commands ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.quick-commands li {
+    padding: 5px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.quick-commands li::before {
+    content: "▶ ";
+    color: currentColor;
+    margin-right: 8px;
+}
+
+/* Animations */
+@keyframes grid-move {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+@keyframes particles-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 20px currentColor;
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 35px currentColor;
+    }
+}
+
+@keyframes message-appear {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .agent-sidebar {
+        width: 300px;
+    }
+    
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .agent-interface {
+        flex-direction: column;
+    }
+    
+    .agent-sidebar {
+        width: 100%;
+        height: 250px;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+    }
+    
+    .agent-nav {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .capabilities-showcase {
+        grid-template-columns: 1fr;
+    }
+    
+    .knowledge-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

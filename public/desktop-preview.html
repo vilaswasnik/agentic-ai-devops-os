@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI DevOps OS - Desktop Interface</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/os-desktop.css">
+</head>
+<body>
+    <!-- OS Header Bar -->
+    <div class="os-header">
+        <div class="os-title">
+            Agentic AI DevOps OS - Enterprise Edition
+        </div>
+        <div class="system-status">
+            AWS Connected | Models Active | System Ready
+        </div>
+    </div>
+
+    <div class="os-container">
+        <!-- Welcome Section -->
+        <div style="text-align: center; margin: 30px 0; color: white;">
+            <h1 style="font-size: 36px; margin-bottom: 10px;">Welcome to Agentic AI DevOps OS</h1>
+            <p style="font-size: 18px; opacity: 0.9;">Your AI-Powered Infrastructure Management Platform</p>
+        </div>
+
+        <!-- AI Agent Dashboard -->
+        <div class="agent-dashboard">
+            <!-- Ansible AI Agent -->
+            <div class="agent-card" onclick="openAgent('ansible')">
+                <div class="agent-icon">⚡</div>
+                <div class="agent-title">Ansible AI Agent</div>
+                <div class="agent-description">
+                    Automate infrastructure deployment and configuration management. 
+                    Run playbooks, manage inventory, and orchestrate complex deployments with AI assistance.
+                </div>
+            </div>
+
+            <!-- Terraform AI Agent -->
+            <div class="agent-card" onclick="openAgent('terraform')">
+                <div class="agent-icon">🏗️</div>
+                <div class="agent-title">Terraform AI Agent</div>
+                <div class="agent-description">
+                    Infrastructure as Code management with AI guidance. 
+                    Plan, apply, and destroy cloud resources with intelligent recommendations.
+                </div>
+            </div>
+
+            <!-- Shell Script AI Agent -->
+            <div class="agent-card" onclick="openAgent('shell')">
+                <div class="agent-icon">🖥️</div>
+                <div class="agent-title">Shell Script AI Agent</div>
+                <div class="agent-description">
+                    Execute system commands and scripts with AI interpretation. 
+                    Automate routine tasks and system administration operations.
+                </div>
+            </div>
+
+            <!-- Knowledge Document Retrieval -->
+            <div class="agent-card" onclick="openAgent('knowledge')">
+                <div class="agent-icon">📚</div>
+                <div class="agent-title">Knowledge Base</div>
+                <div class="agent-description">
+                    Access comprehensive DevOps documentation and best practices. 
+                    AI-powered search and context-aware recommendations.
+                </div>
+            </div>
+        </div>
+
+        <!-- Main AI Chat Interface -->
+        <div class="chat-container">
+            <div class="chat-header">
+                🤖 AI Assistant - Ready to help with your DevOps tasks
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" 
+                       class="chat-input" 
+                       placeholder="Type your command or question... (e.g., 'run ansible playbook', 'execute hello.sh', 'install ansible')"
+                       id="aiInput"
+                       onkeypress="handleKeyPress(event)">
+                
+                <div class="quick-actions">
+                    <button class="quick-btn ansible" onclick="runQuickCommand('run ansible test playbook')">
+                        Run Ansible Test
+                    </button>
+                    <button class="quick-btn shell" onclick="runQuickCommand('execute hello.sh')">
+                        Execute Hello Script
+                    </button>
+                    <button class="quick-btn terraform" onclick="runQuickCommand('install ansible')">
+                        Install Tools
+                    </button>
+                    <button class="quick-btn knowledge" onclick="runQuickCommand('help')">
+                        Show Help
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: white; text-align: center;">
+                <div style="font-size: 24px;">🔧</div>
+                <div>Active Scripts</div>
+                <div style="font-size: 20px; font-weight: bold;">5</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: white; text-align: center;">
+                <div style="font-size: 24px;">📊</div>
+                <div>Playbooks</div>
+                <div style="font-size: 20px; font-weight: bold;">12</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: white; text-align: center;">
+                <div style="font-size: 24px;">☁️</div>
+                <div>AWS Status</div>
+                <div style="font-size: 20px; font-weight: bold; color: #4CAF50;">Connected</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: white; text-align: center;">
+                <div style="font-size: 24px;">🧠</div>
+                <div>AI Model</div>
+                <div style="font-size: 20px; font-weight: bold; color: #4CAF50;">Claude 3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Agent opening functions
+        function openAgent(type) {
+            const input = document.getElementById('aiInput');
+            
+            switch(type) {
+                case 'ansible':
+                    input.value = 'run ansible test playbook';
+                    input.focus();
+                    break;
+                case 'terraform':
+                    input.value = 'show terraform commands';
+                    input.focus();
+                    break;
+                case 'shell':
+                    input.value = 'execute hello.sh';
+                    input.focus();
+                    break;
+                case 'knowledge':
+                    input.value = 'search knowledge base';
+                    input.focus();
+                    break;
+            }
+        }
+
+        // Quick command execution
+        function runQuickCommand(command) {
+            const input = document.getElementById('aiInput');
+            input.value = command;
+            input.focus();
+            // Auto-submit the command
+            setTimeout(() => {
+                if (window.submitCommand) {
+                    window.submitCommand();
+                }
+            }, 500);
+        }
+
+        // Handle enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const command = event.target.value;
+                console.log('Executing command:', command);
+                // Your existing command handling logic will go here
+            }
+        }
+
+        // Focus on input when page loads
+        window.addEventListener('load', () => {
+            document.getElementById('aiInput').focus();
+        });
+    </script>
+</body>
+</html>

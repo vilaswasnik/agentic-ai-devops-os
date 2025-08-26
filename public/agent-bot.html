@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Bot</title>
+  <link rel="stylesheet" href="styles/agent-interfaces.css" />
+</head>
+<body class="knowledge-theme">
+  <!-- Navigation -->
+  <nav class="agent-nav">
+    <div class="nav-left">
+      <button class="back-btn" onclick="window.history.back()">← Back</button>
+    </div>
+    <div class="nav-center">
+      <div class="agent-identity">
+        <span class="agent-icon">🤖</span>
+        <span class="agent-name">Agent Bot</span>
+        <span class="agent-status">ONLINE</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="neural-pulse knowledge-pulse"></div>
+    </div>
+  </nav>
+
+  <!-- Main Interface -->
+  <div class="agent-interface">
+    <main class="agent-main" style="width:100%">
+      <div class="agent-chat-container">
+        <div class="chat-header knowledge-header" style="align-items:flex-start;gap:12px;flex-wrap:wrap">
+          <div class="header-left">
+            <div class="agent-avatar knowledge-avatar">
+              <div class="avatar-pulse"></div>
+              <span>🤖</span>
+            </div>
+            <div class="header-info">
+              <h3>Agent Bot</h3>
+              <p>Ask anything. I’ll answer using your knowledge base and LLM.</p>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+              <label style="font-size:12px;opacity:.8">Model</label>
+              <select id="agentbot-model" style="padding:6px 8px;border-radius:6px;background:#0c1a2b;color:#cfe8ff;border:1px solid rgba(255,255,255,.1)">
+                <option value="anthropic.claude-3-haiku-20240307-v1:0">Claude 3 Haiku</option>
+                <option value="anthropic.claude-3-sonnet-20240229-v1:0">Claude 3.5 Sonnet</option>
+              </select>
+              <label style="font-size:12px;opacity:.8">Temp</label>
+              <input id="agentbot-temp" type="number" min="0" max="1" step="0.1" value="0.7" style="width:64px;padding:6px 8px;border-radius:6px;background:#0c1a2b;color:#cfe8ff;border:1px solid rgba(255,255,255,.1)" />
+              <button id="agentbot-newchat" class="send-btn knowledge-send" title="New chat" style="background:#0b5ed7;border-color:#0b5ed7">+ New</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="copilot-chat" class="chat-messages" style="height:60vh;overflow:auto"></div>
+
+        <div class="neural-input-container knowledge-input">
+          <div class="input-wrapper" style="gap:8px;align-items:center">
+            <div class="input-icon">🤖</div>
+            <input id="copilot-input" type="text" class="neural-input" placeholder="Ask a question..." />
+            <label style="display:flex;gap:6px;align-items:center;font-size:12px;opacity:.9">
+              <input id="agentbot-stream-toggle" type="checkbox" checked /> Stream
+            </label>
+            <button id="agentbot-stop" class="send-btn knowledge-send" title="Stop" style="background:#842029;border-color:#842029;display:none">■</button>
+            <button id="copilot-send" class="send-btn knowledge-send"><span class="send-icon">➤</span></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="scripts/copilot.js"></script>
+</body>
+</html>

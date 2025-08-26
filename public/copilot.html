@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unified AI Copilot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <style>
+    body { background:#0b0f17; color:#e6ecf3; font-family:system-ui,Segoe UI,Roboto,sans-serif; margin:0; }
+    header { display:flex; align-items:center; gap:1rem; padding:0.75rem 1.25rem; background:linear-gradient(90deg,#111a29,#0d253a); box-shadow:0 2px 4px rgba(0,0,0,.4); position:sticky; top:0; z-index:10; }
+    h1 { font-size:1.15rem; margin:0; font-weight:600; letter-spacing:.5px; }
+    .tabs { display:flex; gap:.5rem; }
+    .tab-btn { background:#162132; border:1px solid #203246; color:#c9d6e2; padding:.55rem .9rem; border-radius:6px; cursor:pointer; font-size:.8rem; font-weight:500; display:flex; align-items:center; gap:.45rem; letter-spacing:.5px; }
+    .tab-btn.active { background:#2563eb; border-color:#3380ff; color:#fff; box-shadow:0 0 0 1px #3380ff55,0 4px 12px -2px #1d4ed8aa; }
+    .views { padding:1rem; }
+    iframe { width:100%; height:calc(100vh - 70px); border:1px solid #1e2c3e; background:#0d1520; border-radius:10px; box-shadow:0 0 0 1px #1d2b3d,0 4px 22px -4px rgba(0,0,0,.55); }
+    .status-bar { position:fixed; bottom:0; left:0; right:0; background:#101b29; border-top:1px solid #1d2b38; font-size:.7rem; padding:.35rem .75rem; display:flex; gap:1rem; color:#8aa2b7; letter-spacing:.5px; }
+    .status-bar span { display:flex; align-items:center; gap:.35rem; }
+    .pill { background:#1d2b3d; padding:.15rem .5rem; border-radius:999px; border:1px solid #23364a; }
+    @media (max-width:900px){ iframe { height:calc(100vh - 110px);} header { flex-wrap:wrap; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Unified AI Copilot</h1>
+    <nav class="tabs" id="tabs"></nav>
+  </header>
+  <main class="views">
+    <iframe id="agentFrame" src="/ansible-lab.html" title="Agent"></iframe>
+  </main>
+  <div class="status-bar" id="statusBar"></div>
+  <script>
+    const agents = [
+      { id:'agentbot', label:'Agent Bot', path:'/agent-bot.html', icon:'🤖', desc:'Streaming LLM agent' },
+      { id:'aiagent', label:'LLM Chat', path:'/aiagent.html', icon:'💬', desc:'General assistant' },
+      { id:'knowledge', label:'Knowledge Base', path:'/knowledge-neural.html', icon:'🧠', desc:'Embeddings & RAG' }
+    ];
+    const tabsEl = document.getElementById('tabs');
+    const frame = document.getElementById('agentFrame');
+    const statusBar = document.getElementById('statusBar');
+
+    function renderTabs(){
+      tabsEl.innerHTML = '';
+      agents.forEach(a=>{
+        const btn = document.createElement('button');
+        btn.className = 'tab-btn';
+        btn.dataset.agent = a.id;
+        btn.innerHTML = `<span>${a.icon}</span><span>${a.label}</span>`;
+        btn.title = a.desc;
+        btn.addEventListener('click', ()=>selectAgent(a.id));
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function selectAgent(id){
+      const agent = agents.find(x=>x.id===id) || agents[0];
+      frame.src = agent.path;
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.agent===agent.id));
+      setStatus(`Active: ${agent.label}`);
+      localStorage.setItem('copilot.activeAgent', agent.id);
+    }
+
+    function setStatus(msg){
+      const t = new Date().toLocaleTimeString();
+      statusBar.innerHTML = `<span class='pill'>${t}</span><span>${msg}</span>`;
+    }
+
+    renderTabs();
+  const saved = localStorage.getItem('copilot.activeAgent');
+  // Force default to agentbot if previous selection was removed
+  const startId = agents.find(a=>a.id===saved)?.id || 'agentbot';
+  selectAgent(startId);
+  </script>
+</body>
+</html>

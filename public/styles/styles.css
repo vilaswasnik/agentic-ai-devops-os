@@ -1,0 +1,329 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.chat-container {
+    width: 95%;
+    height: 95%;
+    background-color: #111111; /* Very dark gray background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    overflow: hidden;
+    border: 5px solid #f2f7fa; /* Add a bold white border */
+}
+
+.left-column {
+    width: 30%; /* Set left column to 30% width */
+    background-color: #222222; /* Dark gray background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff; /* White text */
+    position: relative; /* Add this if not already present */
+}
+
+.right-column {
+    width: 70%; /* Adjusted width to 70% */
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff; /* White text */
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: #ffffff; /* White text */
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.bot-face-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+    position: relative;
+}
+
+.bot-face {
+    position: relative;
+}
+
+.bot-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+.bot-mouth {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: none;
+}
+
+.scrollable-list {
+    max-height: 150px; /* Set a fixed height for the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 1px; /* Add some margin for spacing */
+}
+
+.intro-message {
+    text-align: center;
+    margin-top: 0px;
+    color: #ffffff; /* White text */
+}
+
+.intro-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff; /* White text */
+}
+
+.intro-text {
+    font-size: 14px;
+    text-align: left;
+    color: #ffffff; /* White text */
+}
+
+.intro-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    text-align: left;
+    font-size: 12px;
+    color: #ffffff; /* White text */
+}
+
+.intro-list li {
+    margin: 5px 0;
+    color: #ffffff; /* White text */
+}
+
+/* Chatbox container */
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    height: 82%; /* Full height of the parent container */
+    overflow-y: auto;
+    background-color: #222222; /* Dark gray background */
+    color: #ffffff; /* White text */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.chat-box pre {
+    background: #222;
+    color: #0f0;
+    padding: 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+/* User message (left-aligned) */
+.user-message {
+    align-self: flex-start;
+    background-color: #007bff; /* Blue background for user messages */
+    color: #ffffff; /* White text */
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+/* Bot message (right-aligned) */
+.bot-message {
+    align-self: flex-end;
+    background-color: #555555; /* Gray background for bot messages */
+    color: #ffffff; /* White text */
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #222222; /* Dark gray background */
+    border-top: 1px solid #444444; /* Darker gray border */
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 20px;
+    background-color: #333333; /* Darker gray background */
+    color: #ffffff; /* White text */
+    border: 1px solid #444444; /* Darker gray border */
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chat-send-button, .mute-toggle-button {
+    padding: 20px 35px;
+    background-color: #007bff;
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 30px; /* Add space between the button and the right edge */
+}
+
+.chat-send-button:hover, .mute-toggle-button:hover {
+    background-color: #0056b3; /* Darker blue background */
+}
+
+.message {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    color: #ffffff; /* White text */
+}
+
+.message.user {
+    justify-content: flex-start;
+}
+
+.message.bot {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #474646; /* Darker gray background */
+    color: #ffffff; /* White text */
+}
+
+.message.user .message-content {
+    background-color: #007bff;
+    color: #ffffff; /* White text */
+}
+
+.message.bot .message-content {
+    background-color: #555555; /* Medium gray background */
+    color: #ffffff; /* White text */
+}
+
+.mute-toggle-button {
+    margin-top: 5px; /* Adjust margin as needed */
+    margin-left: 10px; /* Move the button a little to the right */
+    padding: 5px 10px; /* Adjust padding to make the button smaller */
+    font-size: 12px; /* Adjust font size */
+    cursor: pointer;
+    background-color: #007bff; /* Button background color */
+    color: #ffffff; /* Button text color */
+    border: none;
+    border-radius: 5px;
+}
+
+.mute-toggle-button:hover {
+    background-color: #007bff; /* Darker blue background on hover */
+}
+
+.logoff-button {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 10;
+}
+
+.login-container {
+    width: 400px;
+    padding: 40px 30px;
+    background: #181818;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+    margin: 60px auto;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 2rem;
+    margin-bottom: 24px;
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+    width: 90%;
+    padding: 14px 10px;
+    margin: 14px 0;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #222;
+    color: #fff;
+}
+
+#login-form button[type="submit"] {
+    width: 90%;
+    padding: 14px 0;
+    font-size: 1.1rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 18px;
+}
+
+#login-message {
+    margin-top: 18px;
+    color: #ff6666;
+    font-size: 1rem;
+}
+
+function addMessage(message, sender) {
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${sender}`; // Assign 'user' or 'bot' class
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.innerHTML = message;
+    messageElement.appendChild(messageContent);
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+}
+
+/* Add to your CSS */
+.typing::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

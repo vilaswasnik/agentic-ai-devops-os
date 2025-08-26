@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ansible Lab Agent</title>
+  <link rel="stylesheet" href="/styles/os-desktop.css" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin:0; background:transparent; color:#b0d4f0; }
+    .lab-wrapper { padding:20px; display:flex; flex-direction:column; gap:18px; }
+    .panel { background:rgba(255,255,255,0.05); border:1px solid rgba(0,255,255,0.18); border-radius:10px; padding:16px; backdrop-filter: blur(10px); }
+    h2 { margin:0 0 8px; font-size:20px; font-weight:600; color:#00ffff; letter-spacing:0.5px; }
+    button { cursor:pointer; background:rgba(0,255,255,0.12); color:#00ffff; border:1px solid rgba(0,255,255,0.4); border-radius:6px; padding:8px 14px; font-size:14px; font-weight:500; }
+    button:hover { background:rgba(0,255,255,0.22); }
+    button:disabled { opacity:0.4; cursor:not-allowed; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .status-indicator { display:inline-flex; align-items:center; gap:6px; font-size:14px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#666; box-shadow:0 0 4px #666; }
+    .dot.running { background:#2ecc71; box-shadow:0 0 6px #2ecc71; }
+    .dot.stopped { background:#e67e22; box-shadow:0 0 6px #e67e22; }
+    .dot.error { background:#e74c3c; box-shadow:0 0 6px #e74c3c; }
+    pre { background:rgba(0,0,0,0.4); padding:12px; border-radius:8px; max-height:260px; overflow:auto; font-size:12px; line-height:1.4; }
+    .small { font-size:12px; opacity:0.7; }
+    table { width:100%; border-collapse: collapse; font-size:12px; }
+    th, td { padding:6px 8px; border:1px solid rgba(255,255,255,0.1); }
+    th { background:rgba(255,255,255,0.07); text-align:left; }
+    code { background:rgba(0,0,0,0.5); padding:2px 4px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <div class="lab-wrapper">
+    <div class="panel" style="margin-bottom:4px;">
+      <h2 style="margin-bottom:6px;">Ansible Lab Agent</h2>
+      <div class="status-indicator" style="margin-bottom:10px;">
+        <div id="labDot" class="dot stopped"></div>
+        <span id="labStatus">Stopped</span>
+        <span id="labMeta" class="small" style="margin-left:8px;"></span>
+      </div>
+      <div class="actions" style="margin-top:4px;flex-wrap:wrap;">
+        <button id="startBtn">Start Lab</button>
+        <button id="stopBtn" disabled>Stop Lab</button>
+  <!-- Removed Reset, Inventory, List Playbooks per user request -->
+      </div>
+      <div class="small" style="margin-top:6px;">Ephemeral container; playbooks live only this session.</div>
+    </div>
+
+    <div style="display:flex; gap:16px; align-items:stretch;">
+      <!-- Left column: Playbooks editor + file list -->
+      <div style="flex:2; display:flex; flex-direction:column; gap:16px;">
+        <div class="panel" style="flex:1; display:flex; flex-direction:column;">
+          <h2 style="margin:0 0 10px;">Playbook Workspace</h2>
+          <div style="display:flex; gap:14px; flex:1; min-height:520px;">
+            <div style="width:240px; display:flex; flex-direction:column;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span style="font-size:14px;">Saved Playbooks</span>
+                <button id="refreshFiles" style="padding:3px 8px;font-size:12px;">↻</button>
+              </div>
+              <ul id="playbookList" style="list-style:none;padding:0;margin:0;flex:1;overflow:auto;font-size:12px;border:1px solid rgba(255,255,255,0.1);border-radius:6px;">
+                <!-- populated dynamically -->
+              </ul>
+              <button id="newPlaybookBtn" style="margin-top:8px;width:100%;">New Playbook</button>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:6px; min-width:400px;">
+              <input id="playbookName" placeholder="playbook.yml" style="background:#07101c;border:1px solid rgba(0,255,255,0.3);color:#b0d4f0;padding:8px 10px;border-radius:6px;font-size:13px;" />
+              <textarea id="playbookContent" placeholder="# YAML content" style="flex:1;min-height:360px;background:#07101c;border:1px solid rgba(0,255,255,0.3);color:#b0d4f0;padding:10px;border-radius:6px;font-family:monospace;font-size:13px;line-height:1.5;white-space:pre;overflow:auto;"></textarea>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button id="autoCorrectPlaybook" disabled>Auto-correct</button>
+                <button id="savePlaybook" disabled>Save</button>
+                <button id="runPlaybook" disabled>Run</button>
+              </div>
+              <pre id="playbookRunOutput" style="max-height:180px; overflow:auto;" class="small">(run output)</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-- Right column removed as per request (logs, discovery) -->
+    </div>
+
+  </div>
+  <script src="/scripts/ansibleLab.js"></script>
+  <script>
+    // Simple context menu element
+    (function(){
+      const menu = document.createElement('div');
+      menu.id='playbookContextMenu';
+      menu.style.position='fixed';
+      menu.style.zIndex='9999';
+      menu.style.background='rgba(0,0,0,0.85)';
+      menu.style.border='1px solid rgba(0,255,255,0.4)';
+      menu.style.color='#00ffff';
+      menu.style.padding='6px 0';
+      menu.style.borderRadius='6px';
+      menu.style.minWidth='140px';
+      menu.style.fontSize='13px';
+      menu.style.display='none';
+  menu.innerHTML = '<div data-action="rename" style="padding:6px 14px;cursor:pointer;">Rename Playbook</div><div data-action="delete" style="padding:6px 14px;cursor:pointer;">Delete Playbook</div>';
+      document.body.appendChild(menu);
+      function hide(){ menu.style.display='none'; }
+      document.addEventListener('click', hide);
+      document.addEventListener('contextmenu', e=>{
+        const li = e.target.closest && e.target.closest('#playbookList li');
+        if (!li) return;
+        e.preventDefault();
+        menu.dataset.filename = li.textContent.trim();
+        menu.style.left = e.clientX + 'px';
+        menu.style.top = e.clientY + 'px';
+        menu.style.display='block';
+      });
+      menu.addEventListener('click', async e=>{
+        const act = e.target.getAttribute('data-action');
+        if (act==='rename'){
+          const name = menu.dataset.filename;
+          hide();
+          if (!name) return;
+          const newName = prompt('Rename '+name+' to:', name);
+          if (!newName || newName===name) return;
+          if (!/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(newName)){ alert('Invalid filename'); return; }
+          try {
+            const res = await fetch('/api/lab/ansible/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ oldName: name, newName }) });
+            if (!res.ok){ const js=await res.json().catch(()=>({})); alert('Rename failed: '+(js.error||res.status)); return; }
+            // Update list item text
+            const li = Array.from(document.querySelectorAll('#playbookList li')).find(li=>li.textContent.trim()===name);
+            if (li) li.textContent = newName;
+            // If open in editor, update inputs
+            const nameInput = document.getElementById('playbookName');
+            if (nameInput && nameInput.value.trim()===name) nameInput.value = newName;
+          } catch(err){ alert('Rename error: '+err.message); }
+          return;
+        } else if (act==='delete'){
+          const name = menu.dataset.filename;
+          hide();
+          if (!name) return;
+          if (!confirm('Delete '+name+'?')) return;
+          try {
+            const res = await fetch('/api/lab/ansible/file?name='+encodeURIComponent(name), { method:'DELETE' });
+            if (!res.ok){ const js=await res.json().catch(()=>({})); alert('Delete failed: '+(js.error||res.status)); return; }
+            // Remove from list
+            const lis = document.querySelectorAll('#playbookList li');
+            lis.forEach(li=>{ if (li.textContent.trim()===name) li.remove(); });
+            // Clear editor if it was the open file
+            const nameInput = document.getElementById('playbookName');
+            if (nameInput && nameInput.value.trim()===name){ nameInput.value=''; const ta=document.getElementById('playbookContent'); if (ta) ta.value=''; }
+          } catch(err){ alert('Delete error: '+err.message); }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

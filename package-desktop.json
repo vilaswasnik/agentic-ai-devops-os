@@ -1,0 +1,41 @@
+{
+  "name": "agentic-ai-devops-os",
+  "version": "1.0.0", 
+  "description": "Agentic AI DevOps OS - Desktop Application",
+  "main": "desktop/main.js",
+  "scripts": {
+    "start": "node server.js",
+    "desktop": "electron .",
+    "dev": "nodemon server.js",
+    "build-desktop": "electron-builder",
+    "pack": "electron-builder --dir"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.840.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.agentic.devops.os",
+    "productName": "Agentic AI DevOps OS",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*"
+    ],
+    "linux": {
+      "target": "AppImage",
+      "category": "Development"
+    }
+  },
+  "author": "UCD DevOps Team",
+  "license": "ISC"
+}

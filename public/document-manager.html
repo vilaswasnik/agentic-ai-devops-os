@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Manager - Agentic AI DevOps OS</title>
+    <link rel="stylesheet" href="styles/agent-interfaces.css">
+    <style>
+        .upload-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(10, 22, 40, 0.95);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .upload-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #b0d4f0;
+        }
+        
+        .upload-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #8bb3d9;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .upload-zone {
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(0, 123, 255, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover {
+            border-color: #0056b3;
+            background: rgba(0, 123, 255, 0.1);
+        }
+        
+        .upload-zone.dragover {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #b0d4f0;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-subtext {
+            color: #8bb3d9;
+            font-size: 14px;
+        }
+        
+        .file-list {
+            margin-top: 20px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .file-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .file-details {
+            color: #b0d4f0;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .file-meta {
+            font-size: 12px;
+            color: #8bb3d9;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-process {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-process:hover {
+            background: #1e7e34;
+        }
+        
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        
+        .btn-processed {
+            background: #6c757d;
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .processing-status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .status-processing {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .status-success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .status-error {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        .knowledge-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #8bb3d9;
+            font-size: 14px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="knowledge-theme">
+    <!-- Knowledge-specific Background -->
+    <div class="agent-background knowledge-bg">
+        <div class="data-grid"></div>
+        <div class="knowledge-particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="agent-nav">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='/knowledge-neural.html'">
+                ← Back to Knowledge Base
+            </button>
+        </div>
+        <div class="nav-center">
+            <div class="agent-identity">
+                <span class="agent-icon">📁</span>
+                <span class="agent-name">Document Manager</span>
+                <span class="agent-status">KNOWLEDGE EXPANSION</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="neural-pulse knowledge-pulse"></div>
+        </div>
+    </nav>
+
+    <div class="upload-container">
+        <div class="upload-header">
+            <h1>📁 Document Knowledge Manager</h1>
+            <p>Upload documents to expand your AI knowledge base</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="upload-tabs">
+            <button class="tab-btn active" onclick="switchTab('upload')">📤 Upload Documents</button>
+            <button class="tab-btn" onclick="switchTab('process')">⚙️ Generate Embeddings</button>
+            <button class="tab-btn" onclick="switchTab('manage')">📊 Manage Knowledge Base</button>
+        </div>
+
+        <!-- Upload Tab -->
+        <div id="upload-tab" class="tab-content active">
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Click to upload or drag & drop files</div>
+                <div class="upload-subtext">Supports: PDF, DOC, DOCX, TXT, HTML, XML, MD</div>
+                <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.html,.xml,.md" style="display: none;" onchange="handleFileSelect(event)">
+            </div>
+            
+            <div id="upload-status" class="processing-status" style="display: none;"></div>
+            
+            <div class="file-list" id="fileList"></div>
+        </div>
+
+        <!-- Process Tab -->
+        <div id="process-tab" class="tab-content">
+            <h3>🔄 Generate Embeddings & RAG Integration</h3>
+            <p>Process uploaded documents to make them searchable by your Knowledge Base AI.</p>
+            
+            <div id="unprocessed-files"></div>
+            
+            <button id="processAllBtn" class="action-btn btn-process" onclick="processAllDocuments()" style="margin-top: 20px; padding: 12px 24px; font-size: 16px;">
+                ⚡ Generate Embeddings for All Documents
+            </button>
+            
+            <div id="processing-progress" style="display: none; margin-top: 20px;">
+                <div class="processing-status status-processing">
+                    <div>🔄 Processing documents and generating embeddings...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" style="margin-top: 10px;">Initializing...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Tab -->
+        <div id="manage-tab" class="tab-content">
+            <h3>📊 Knowledge Base Statistics</h3>
+            
+            <div class="knowledge-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalDocs">0</div>
+                    <div class="stat-label">Total Documents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalChunks">0</div>
+                    <div class="stat-label">Knowledge Chunks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="processedDocs">0</div>
+                    <div class="stat-label">Processed Documents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="storageUsed">0 MB</div>
+                    <div class="stat-label">Storage Used</div>
+                </div>
+            </div>
+            
+            <h4 style="margin-top: 30px; color: #b0d4f0;">📋 Processed Documents</h4>
+            <div id="processedDocsList"></div>
+            
+            <button class="action-btn btn-delete" onclick="clearAllData()" style="margin-top: 20px; padding: 12px 24px;">
+                🗑️ Clear All Knowledge Data
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+        let processedFiles = JSON.parse(localStorage.getItem('processedFiles') || '[]');
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'manage') {
+                updateStats();
+            } else if (tabName === 'process') {
+                showUnprocessedFiles();
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            const files = Array.from(event.dataTransfer.files);
+            processFiles(files);
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            processFiles(files);
+        }
+
+        function processFiles(files) {
+            const validExtensions = ['.pdf', '.doc', '.docx', '.txt', '.html', '.xml', '.md'];
+            const validFiles = files.filter(file => {
+                const extension = '.' + file.name.split('.').pop().toLowerCase();
+                return validExtensions.includes(extension);
+            });
+
+            if (validFiles.length === 0) {
+                showStatus('No valid files selected. Please upload PDF, DOC, TXT, HTML, XML, or MD files.', 'error');
+                return;
+            }
+
+            validFiles.forEach(file => {
+                const fileInfo = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    uploadDate: new Date().toISOString(),
+                    processed: false
+                };
+
+                // Read file content
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fileInfo.content = e.target.result;
+                    uploadedFiles.push(fileInfo);
+                    localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                    updateFileList();
+                    showStatus(`✅ ${file.name} uploaded successfully!`, 'success');
+                };
+                reader.readAsText(file);
+            });
+        }
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+
+            uploadedFiles.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const icon = getFileIcon(file.name);
+                const size = formatFileSize(file.size);
+                const date = new Date(file.uploadDate).toLocaleDateString();
+                
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon">${icon}</div>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-meta">${size} • ${date}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        ${file.processed ? 
+                            '<button class="action-btn btn-processed">✅ Processed</button>' :
+                            `<button class="action-btn btn-process" onclick="processSingleFile('${file.id}')">⚡ Process</button>`
+                        }
+                        <button class="action-btn btn-delete" onclick="deleteFile('${file.id}')">🗑️ Delete</button>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        function getFileIcon(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            const icons = {
+                'pdf': '📕',
+                'doc': '📘',
+                'docx': '📘',
+                'txt': '📄',
+                'html': '🌐',
+                'xml': '📋',
+                'md': '📝'
+            };
+            return icons[extension] || '📄';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('upload-status');
+            statusDiv.className = `processing-status status-${type}`;
+            statusDiv.textContent = message;
+            statusDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function deleteFile(fileId) {
+            uploadedFiles = uploadedFiles.filter(file => file.id !== fileId);
+            processedFiles = processedFiles.filter(file => file.id !== fileId);
+            localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+            localStorage.setItem('processedFiles', JSON.stringify(processedFiles));
+            updateFileList();
+            showStatus('File deleted successfully!', 'success');
+        }
+
+        function showUnprocessedFiles() {
+            const container = document.getElementById('unprocessed-files');
+            const unprocessed = uploadedFiles.filter(file => !file.processed);
+            
+            if (unprocessed.length === 0) {
+                container.innerHTML = '<p style="color: #8bb3d9;">No unprocessed files. Upload documents first.</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <h4 style="color: #b0d4f0;">📄 Files Ready for Processing (${unprocessed.length})</h4>
+                ${unprocessed.map(file => `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-icon">${getFileIcon(file.name)}</div>
+                            <div class="file-details">
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-meta">${formatFileSize(file.size)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        async function processAllDocuments() {
+            const unprocessed = uploadedFiles.filter(file => !file.processed);
+            if (unprocessed.length === 0) {
+                showStatus('No files to process!', 'error');
+                return;
+            }
+
+            document.getElementById('processing-progress').style.display = 'block';
+            document.getElementById('processAllBtn').disabled = true;
+            
+            for (let i = 0; i < unprocessed.length; i++) {
+                const file = unprocessed[i];
+                const progress = ((i + 1) / unprocessed.length) * 100;
+                
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressText').textContent = `Processing ${file.name}... (${i + 1}/${unprocessed.length})`;
+                
+                await processSingleFileAsync(file);
+                
+                // Mark as processed
+                file.processed = true;
+                processedFiles.push({
+                    ...file,
+                    processedDate: new Date().toISOString(),
+                    chunks: Math.ceil(file.content.length / 500) // Estimate chunks
+                });
+            }
+            
+            localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+            localStorage.setItem('processedFiles', JSON.stringify(processedFiles));
+            
+            document.getElementById('processing-progress').style.display = 'none';
+            document.getElementById('processAllBtn').disabled = false;
+            
+            showStatus(`✅ Successfully processed ${unprocessed.length} documents!`, 'success');
+            updateFileList();
+        }
+
+        async function processSingleFileAsync(file) {
+            return new Promise((resolve) => {
+                // Simulate processing time
+                setTimeout(() => {
+                    console.log(`Processed: ${file.name}`);
+                    resolve();
+                }, 1000);
+            });
+        }
+
+        function processSingleFile(fileId) {
+            const file = uploadedFiles.find(f => f.id === fileId);
+            if (!file) return;
+            
+            // Mark as processed
+            file.processed = true;
+            processedFiles.push({
+                ...file,
+                processedDate: new Date().toISOString(),
+                chunks: Math.ceil(file.content.length / 500)
+            });
+            
+            localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+            localStorage.setItem('processedFiles', JSON.stringify(processedFiles));
+            
+            updateFileList();
+            showStatus(`✅ ${file.name} processed successfully!`, 'success');
+        }
+
+        function updateStats() {
+            document.getElementById('totalDocs').textContent = uploadedFiles.length;
+            document.getElementById('processedDocs').textContent = processedFiles.length;
+            document.getElementById('totalChunks').textContent = processedFiles.reduce((sum, file) => sum + (file.chunks || 0), 0);
+            
+            const totalSize = uploadedFiles.reduce((sum, file) => sum + file.size, 0);
+            document.getElementById('storageUsed').textContent = formatFileSize(totalSize);
+            
+            // Update processed documents list
+            const container = document.getElementById('processedDocsList');
+            if (processedFiles.length === 0) {
+                container.innerHTML = '<p style="color: #8bb3d9;">No processed documents yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = processedFiles.map(file => `
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-icon">${getFileIcon(file.name)}</div>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-meta">${file.chunks} chunks • Processed ${new Date(file.processedDate).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all uploaded files and knowledge data? This cannot be undone.')) {
+                localStorage.removeItem('uploadedFiles');
+                localStorage.removeItem('processedFiles');
+                uploadedFiles = [];
+                processedFiles = [];
+                updateFileList();
+                updateStats();
+                showStatus('All data cleared successfully!', 'success');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFileList();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

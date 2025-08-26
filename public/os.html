@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic AI DevOps OS</title>
+    <!-- Use only the OS desktop theme to avoid global layout overrides -->
+    <link rel="stylesheet" href="styles/os-desktop.css" />
+</head>
+<body>
+    <!-- Top OS Bar -->
+    <div class="os-header" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid rgba(0,255,255,0.2);background:rgba(10,22,40,0.85);backdrop-filter:blur(12px);">
+        <div style="display:flex;align-items:center;gap:10px;color:#b0d4f0;">
+            <span style="font-weight:700;letter-spacing:0.3px;">Agentic AI DevOps OS</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <!-- reserved for future status/search -->
+        </div>
+    </div>
+
+    <!-- Split view: left menu and right content iframe -->
+    <div class="os-main" style="display:flex;gap:16px;padding:16px;min-height:calc(100vh - 56px);">
+        <!-- Left vertical menu with icons -->
+        <aside style="width:260px;background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border:1px solid rgba(0,255,255,0.2);border-radius:10px;padding:12px;">
+            <div style="color:#00ffff;font-weight:700;margin:6px 4px 10px;">Agents</div>
+            <nav style="display:flex;flex-direction:column;gap:8px;">
+                <button class="menu-item" data-target="/aiagent.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">⚡</span>
+                    <span>Ansible AI Agent</span>
+                </button>
+                <button class="menu-item" data-target="/ansible-lab.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">🧪</span>
+                    <span>Ansible Lab Agent</span>
+                </button>
+                <button class="menu-item" data-target="/terraform-core.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">🏗️</span>
+                    <span>Terraform AI Agent</span>
+                </button>
+                <button class="menu-item" data-target="/aiagent.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">🖥️</span>
+                    <span>Shell Script AI Agent</span>
+                </button>
+                <button class="menu-item" data-target="/knowledge-neural.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">📚</span>
+                    <span>Knowledge Base AI Agent</span>
+                </button>
+                <button class="menu-item" data-target="/agent-bot.html" style="display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.06);color:#b0d4f0;cursor:pointer;">
+                    <span style="font-size:18px;">🤖</span>
+                    <span>Agent Bot</span>
+                </button>
+            </nav>
+            <div style="height:12px;"></div>
+            <button id="logoffBtn" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,0,0,0.35);background:rgba(255,0,0,0.08);color:#ff6666;cursor:pointer;">Log Off</button>
+        </aside>
+
+        <!-- Right content -->
+        <main style="flex:1;border:1px solid rgba(0,255,255,0.2);border-radius:10px;overflow:hidden;background:rgba(2,8,22,0.9);">
+            <iframe id="contentFrame" src="/aiagent.html" style="display:block;width:100%;height:calc(100vh - 80px);border:0;background:transparent;"></iframe>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar navigation and logoff
+        (function(){
+          const frame = document.getElementById('contentFrame');
+          const items = document.querySelectorAll('.menu-item');
+          // Set initial active state
+          if (items.length) {
+            items[0].style.outline = '2px solid rgba(0,255,255,0.5)';
+          }
+          items.forEach(btn => {
+            btn.addEventListener('click', () => {
+              const target = btn.getAttribute('data-target');
+              if (frame && target) frame.src = target;
+              items.forEach(b => b.style.outline = '');
+              btn.style.outline = '2px solid rgba(0,255,255,0.5)';
+            });
+          });
+          const logoff = document.getElementById('logoffBtn');
+          if (logoff){
+            logoff.addEventListener('click', async () => {
+              try { await fetch('/api/logoff', { method: 'POST' }); } catch (e) {}
+              window.location.href = '/login.html';
+            });
+          }
+        })();
+    </script>
+</body>
+</html>

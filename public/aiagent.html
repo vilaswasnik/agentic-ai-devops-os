@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI DevOps Agent</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script type="module" src="scripts/aiagent.js"></script>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <div class="left-column">
+            <div class="chat-header" style="display:flex;align-items:center;justify-content:space-between"> 
+                <span>AI DevOps Agent</span>
+                <button id="aiagent-newchat" class="chat-send-button" style="padding:6px 10px">+ New</button>
+            </div>
+            <div class="bot-face-container">
+                <div class="bot-face">
+                    <img src="images/agent.png" alt="AI Agent" class="bot-image">
+                    <div class="bot-mouth" id="bot-mouth"></div>
+                </div>
+                <button id="mute-button" class="mute-toggle-button">Mute</button>
+            </div>
+            <div class="intro-message">
+                <p class="intro-title">How Can I Help You?</p>
+                <p class="intro-text">You can ask me:</p>
+                <div class="scrollable-list">
+                    <ul class="intro-list">
+                        <li>run ansible test playbook</li>
+                        <li>execute hello.sh</li>
+                        <li>run getosdetails playbook</li>
+                        <li>install ansible</li> <!-- Add your new playbook command -->
+                        <li>execute hello2.sh</li>
+                    </ul>
+                </div>
+            </div>
+            <button id="logoff-button" class="logoff-button">Log Off</button>
+        </div>
+        <div class="right-column">
+            <div class="chat-box" id="chat-box">
+                <!-- Messages will be dynamically appended here -->
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Type a message...">
+                <button class="chat-send-button">Send</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

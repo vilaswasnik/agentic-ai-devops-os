@@ -1,0 +1,6 @@
+--- 
+ - name: Test Ansible Installation 
+   hosts: controller 
+   tasks: 
+     - name: Ping controller 
+       ping: 

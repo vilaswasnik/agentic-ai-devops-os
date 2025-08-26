@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CentOS Console</title>
+<link rel="stylesheet" href="/styles/os-desktop.css" />
+<style>
+ body { margin:0; font-family: 'JetBrains Mono', Menlo, monospace; background:#0b0f17; color:#d0d6e2; }
+ .wrap { padding:16px; display:flex; flex-direction:column; gap:14px; }
+ h2 { margin:0; font-size:18px; color:#00ffff; }
+ .panel { background:rgba(255,255,255,0.05); border:1px solid rgba(0,255,255,0.18); border-radius:10px; padding:14px; backdrop-filter:blur(8px); }
+ .status { display:flex; gap:10px; align-items:center; }
+ .dot { width:10px; height:10px; border-radius:50%; background:#e67e22; box-shadow:0 0 6px #e67e22; }
+ .dot.running { background:#2ecc71; box-shadow:0 0 8px #2ecc71; }
+ button { background:rgba(0,255,255,0.12); border:1px solid rgba(0,255,255,0.4); color:#00ffff; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; }
+ button:hover { background:rgba(0,255,255,0.22); }
+ button:disabled { opacity:0.4; cursor:not-allowed; }
+ #terminal { background:#000; border:1px solid #1f2733; border-radius:8px; padding:10px; font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.45; min-height:420px; max-height:640px; overflow:auto; white-space:pre-wrap; color:#e6edf3; }
+ /* Inline prompt now rendered directly inside #terminal; removed external input line */
+ .meta { font-size:11px; opacity:0.65; }
+ .output-block { margin:0; }
+ .err { color:#ff6b6b; }
+ .cwd { color:#4dd2ff; }
+ .user { color:#7CFC00; }
+ .host { color:#ffaf40; }
+ .prompt-symbol { color:#ccc; }
+ .kbd { background:#132131; padding:2px 5px; border-radius:4px; border:1px solid rgba(255,255,255,0.15); font-size:11px; }
+ /* Blinking cursor for inline CLI input when empty */
+ .cli-input { position:relative; min-width:4px; display:inline-block; caret-color:#00ffff; }
+ .cli-input:empty:after { content:''; display:inline-block; width:8px; height:1.1em; background:#00ffff; animation:blink 1s steps(1,end) infinite; }
+ @keyframes blink { 50% { opacity:0; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+  <h2>CentOS Interactive Console</h2>
+      <div class="status">
+        <div id="runnerDot" class="dot"></div>
+        <span id="runnerStatus">Stopped</span>
+        <span id="runnerMeta" class="meta"></span>
+        <span class="meta" style="margin-left:auto;">User: <span id="userLabel">root</span></span>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+        <button id="startLab">Start</button>
+        <button id="stopLab" disabled>Stop</button>
+        <button id="resetLab" disabled>Reset</button>
+        <button id="clearTerm">Clear</button>
+        <button id="helpBtn">Help</button>
+      </div>
+  <div class="meta" style="margin-top:6px;">Image: quay.io/centos/centos:stream9 (override with CENTOS_CONSOLE_IMAGE)</div>
+    </div>
+
+    <div class="panel" style="position:relative;">
+  <div id="terminal"></div>
+      <div class="meta" style="margin-top:4px;">Supports Linux commands (cd, pwd, clear, sudo). Blocks docker.*</div>
+    </div>
+  </div>
+<script src="/scripts/runnerConsole.js"></script>
+</body>
+</html>

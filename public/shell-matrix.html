@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shell Matrix AI - System Commands</title>
+    <link rel="stylesheet" href="styles/agent-interfaces.css">
+    <script type="module" src="scripts/aiagent.js"></script>
+</head>
+<body class="shell-theme">
+    <!-- Shell-specific Background -->
+    <div class="agent-background shell-bg">
+        <div class="matrix-grid"></div>
+        <div class="shell-particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="agent-nav">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='/aiagent.html'">
+                ← Back to Neural OS
+            </button>
+        </div>
+        <div class="nav-center">
+            <div class="agent-identity">
+                <span class="agent-icon">💻</span>
+                <span class="agent-name">Shell Matrix AI</span>
+                <span class="agent-status">TERMINAL ACTIVE</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="neural-pulse shell-pulse"></div>
+        </div>
+    </nav>
+
+    <!-- Main Interface -->
+    <div class="agent-interface">
+        <!-- Left Panel - Shell Tools -->
+        <aside class="agent-sidebar shell-sidebar">
+            <div class="sidebar-header">
+                <h3>SHELL MATRIX</h3>
+                <div class="neural-line shell-line"></div>
+            </div>
+
+            <!-- Quick Scripts -->
+            <div class="tool-section">
+                <h4>QUICK SCRIPTS</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="execute hello.sh">
+                        <span class="tool-icon">👋</span>
+                        <span class="tool-name">Hello World</span>
+                    </button>
+                    <button class="tool-btn" data-command="execute hello2.sh">
+                        <span class="tool-icon">🌟</span>
+                        <span class="tool-name">Hello 2</span>
+                    </button>
+                    <button class="tool-btn" data-command="execute makefolder script">
+                        <span class="tool-icon">📁</span>
+                        <span class="tool-name">Make Folder</span>
+                    </button>
+                    <button class="tool-btn" data-command="check system status">
+                        <span class="tool-icon">📊</span>
+                        <span class="tool-name">System Check</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- System Commands -->
+            <div class="tool-section">
+                <h4>SYSTEM COMMANDS</h4>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-command="show disk usage">
+                        <span class="tool-icon">💽</span>
+                        <span class="tool-name">Disk Usage</span>
+                    </button>
+                    <button class="tool-btn" data-command="show processes">
+                        <span class="tool-icon">⚙️</span>
+                        <span class="tool-name">Processes</span>
+                    </button>
+                    <button class="tool-btn" data-command="show memory">
+                        <span class="tool-icon">🧠</span>
+                        <span class="tool-name">Memory</span>
+                    </button>
+                    <button class="tool-btn" data-command="show network">
+                        <span class="tool-icon">🌐</span>
+                        <span class="tool-name">Network</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Script Templates -->
+            <div class="tool-section">
+                <h4>SCRIPT TEMPLATES</h4>
+                <div class="template-list">
+                    <div class="template-item" data-template="backup">
+                        <span class="template-icon">📦</span>
+                        <span class="template-name">Backup Script</span>
+                    </div>
+                    <div class="template-item" data-template="monitoring">
+                        <span class="template-icon">📊</span>
+                        <span class="template-name">System Monitor</span>
+                    </div>
+                    <div class="template-item" data-template="deployment">
+                        <span class="template-icon">🚀</span>
+                        <span class="template-name">Deploy Script</span>
+                    </div>
+                    <div class="template-item" data-template="cleanup">
+                        <span class="template-icon">🧹</span>
+                        <span class="template-name">Cleanup Script</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content - Shell Chat -->
+        <main class="agent-main">
+            <div class="agent-chat-container" id="chat-container">
+                <div class="chat-header shell-header">
+                    <div class="header-left">
+                        <div class="agent-avatar shell-avatar">
+                            <div class="avatar-pulse"></div>
+                            <span>💻</span>
+                        </div>
+                        <div class="header-info">
+                            <h3>Shell Matrix AI</h3>
+                            <p>System Command Specialist</p>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="terminal-status">
+                            <div class="status-indicator active"></div>
+                            <span>Terminal Matrix Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-box">
+                    <div class="welcome-message">
+                        <div class="message bot shell-message">
+                            <div class="message-avatar">💻</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender-name">Shell Matrix AI</span>
+                                    <span class="message-time">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    <h4>💻 Shell Matrix Interface Activated</h4>
+                                    <p>Welcome to the Shell Command Matrix! I'm your specialized AI for system administration, script execution, and terminal operations.</p>
+                                    
+                                    <div class="capabilities-showcase">
+                                        <div class="capability-card">
+                                            <span class="cap-icon">⚡</span>
+                                            <span class="cap-text">Execute Scripts</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">📊</span>
+                                            <span class="cap-text">System Monitor</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">🔧</span>
+                                            <span class="cap-text">System Admin</span>
+                                        </div>
+                                        <div class="capability-card">
+                                            <span class="cap-icon">📝</span>
+                                            <span class="cap-text">Script Creation</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="terminal-preview">
+                                        <div class="terminal-header">
+                                            <div class="terminal-controls">
+                                                <span class="control red"></span>
+                                                <span class="control yellow"></span>
+                                                <span class="control green"></span>
+                                            </div>
+                                            <div class="terminal-title">shell-matrix-ai</div>
+                                        </div>
+                                        <div class="terminal-body">
+                                            <div class="terminal-line">
+                                                <span class="prompt">user@shell-matrix:~$</span>
+                                                <span class="cursor">█</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="quick-commands">
+                                        <p><strong>Try these commands:</strong></p>
+                                        <ul>
+                                            <li>"execute hello.sh" - Run test script</li>
+                                            <li>"show disk usage" - Check storage</li>
+                                            <li>"create backup script" - Generate automation</li>
+                                            <li>"monitor system" - Real-time monitoring</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neural-input-container shell-input">
+                    <div class="input-wrapper">
+                        <div class="input-icon">💻</div>
+                        <input type="text" 
+                               class="neural-input" 
+                               placeholder="Enter shell command... (e.g., 'execute script', 'check system status')"
+                               id="user-input">
+                        <button id="send-button" class="send-btn shell-send">
+                            <span class="send-icon">⚡</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden elements -->
+    <div id="bot-mouth" style="display: none;"></div>
+
+    <script>
+        // Shell-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tool buttons
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const command = this.dataset.command;
+                    const input = document.getElementById('user-input');
+                    input.value = command;
+                    input.focus();
+                    
+                    setTimeout(() => {
+                        const event = new KeyboardEvent('keypress', { key: 'Enter' });
+                        input.dispatchEvent(event);
+                    }, 500);
+                });
+            });
+
+            // Template items
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const template = this.dataset.template;
+                    const input = document.getElementById('user-input');
+                    input.value = `create ${template} script`;
+                    input.focus();
+                });
+            });
+
+            // Cursor blink animation
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                setInterval(() => {
+                    cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+                }, 500);
+            }
+
+            setTimeout(() => {
+                document.getElementById('user-input').focus();
+            }, 1000);
+
+            document.title = 'Shell Matrix AI - Active';
+        });
+    </script>
+</body>
+</html>

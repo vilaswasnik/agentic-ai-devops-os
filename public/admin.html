@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Admin Panel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .status-card, .test-card, .switch-card {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .status-card.ollama { border-left-color: #28a745; }
+        .status-card.openai { border-left-color: #17a2b8; }
+        
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .btn.ollama { background-color: #28a745; }
+        .btn.ollama:hover { background-color: #1e7e34; }
+        .btn.openai { background-color: #17a2b8; }
+        .btn.openai:hover { background-color: #117a8b; }
+        
+        .current-provider {
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+        .model-info {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        .response {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 LLM Admin Panel</h1>
+        
+        <div class="status-card" id="statusCard">
+            <h2>Current Status</h2>
+            <div id="statusContent">Loading...</div>
+        </div>
+
+        <div class="switch-card">
+            <h2>Switch LLM Provider</h2>
+            <p>Choose between local Ollama and OpenAI API:</p>
+            <button class="btn ollama" onclick="switchProvider('ollama')">🏠 Use Local Ollama</button>
+            <button class="btn openai" onclick="switchProvider('openai')">☁️ Use OpenAI API</button>
+        </div>
+
+        <div class="test-card">
+            <h2>Test LLM Response</h2>
+            <textarea id="testMessage" placeholder="Enter your test message here...">Hello! Please introduce yourself and tell me what you can do.</textarea>
+            <br>
+            <button class="btn" onclick="testLLM()">Test Current Provider</button>
+            <button class="btn ollama" onclick="testLLM('ollama')">Test Ollama</button>
+            <button class="btn openai" onclick="testLLM('openai')">Test OpenAI</button>
+            <div id="testResponse"></div>
+        </div>
+    </div>
+
+    <script>
+        // Load initial status
+        loadStatus();
+
+        async function loadStatus() {
+            try {
+                const response = await fetch('/api/llm/status');
+                const status = await response.json();
+                
+                const statusCard = document.getElementById('statusCard');
+                statusCard.className = `status-card ${status.provider}`;
+                
+                let html = `
+                    <div class="current-provider">Current Provider: ${status.provider.toUpperCase()}</div>
+                    <div class="model-info">
+                        <strong>Model:</strong> ${status.model}<br>
+                        <strong>Local:</strong> ${status.isLocal ? 'Yes' : 'No'}<br>
+                        <strong>Ollama Available:</strong> ${status.ollamaAvailable ? 'Yes' : 'No'}
+                    </div>
+                `;
+                
+                if (status.availableModels && status.availableModels.length > 0) {
+                    html += `<h3>Available Models:</h3>`;
+                    status.availableModels.forEach(model => {
+                        html += `<div class="model-info">
+                            <strong>${model.name}</strong><br>
+                            Size: ${(model.size / 1024 / 1024 / 1024).toFixed(2)} GB<br>
+                            Family: ${model.details.family || 'N/A'}
+                        </div>`;
+                    });
+                }
+                
+                document.getElementById('statusContent').innerHTML = html;
+            } catch (error) {
+                document.getElementById('statusContent').innerHTML = `<div class="error">Error loading status: ${error.message}</div>`;
+            }
+        }
+
+        async function switchProvider(provider) {
+            try {
+                const response = await fetch('/api/llm/switch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provider })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(`Successfully switched to ${provider.toUpperCase()}`, 'response');
+                    loadStatus();
+                } else {
+                    showMessage(`Failed to switch provider: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showMessage(`Error switching provider: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLLM(provider = null) {
+            const message = document.getElementById('testMessage').value;
+            const responseDiv = document.getElementById('testResponse');
+            
+            if (!message.trim()) {
+                showMessage('Please enter a test message', 'error');
+                return;
+            }
+            
+            responseDiv.innerHTML = '<div class="loading">Testing LLM... Please wait.</div>';
+            
+            try {
+                const response = await fetch('/api/llm/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, provider })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    responseDiv.innerHTML = `<div class="response"><strong>Response:</strong><br>${result.response}</div>`;
+                } else {
+                    responseDiv.innerHTML = `<div class="error">Error: ${result.error}</div>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<div class="error">Error testing LLM: ${error.message}</div>`;
+            }
+        }
+
+        function showMessage(message, type) {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = message;
+            div.style.marginTop = '10px';
+            
+            // Remove existing messages
+            const existing = document.querySelector('.switch-card .' + type);
+            if (existing) existing.remove();
+            
+            document.querySelector('.switch-card').appendChild(div);
+            
+            // Remove after 5 seconds
+            setTimeout(() => div.remove(), 5000);
+        }
+
+        // Auto-refresh status every 30 seconds
+        setInterval(loadStatus, 30000);
+    </script>
+</body>
+</html>
