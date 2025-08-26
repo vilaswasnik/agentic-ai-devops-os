@@ -33,12 +33,14 @@ Agentic AI DevOps OS is a production-ready, open-source platform that revolution
 ## 🏁 **Quick Start Guide**
 
 ### Prerequisites
-- Node.js 16+ and npm
-- Git
-- Docker (optional, for containerized deployment)
-- AWS Account (for Bedrock integration)
+- **Node.js 18+** and npm (Download from [nodejs.org](https://nodejs.org/))
+- **Git** (Download from [git-scm.com](https://git-scm.com/))
+- **AWS Account** (for AI integration - [aws.amazon.com](https://aws.amazon.com/))
+- **Docker** (optional, for containerized deployment - [docker.com](https://docker.com/))
 
-### Installation & Setup
+### 🚀 **Complete Setup Instructions**
+
+#### Step 1: Clone and Install
 ```bash
 # 1. Clone the repository
 git clone https://github.com/vilaswasnik/agentic-ai-devops-os.git
@@ -47,28 +49,211 @@ cd agentic-ai-devops-os
 # 2. Install dependencies
 npm install
 
-# 3. Configure environment variables
-cp .env.example .env
-# Edit .env with your AWS credentials and configuration
+# 3. Install Ansible (for automation features)
+# On Ubuntu/Debian:
+sudo apt update && sudo apt install -y ansible
 
-# 4. Start the server
+# On macOS:
+brew install ansible
+
+# On Windows (WSL recommended):
+sudo apt install ansible
+```
+
+#### Step 2: Configure Environment
+```bash
+# 1. Copy environment template
+cp .env.example .env
+
+# 2. Edit .env with your AWS credentials
+nano .env
+# OR
+code .env
+```
+
+**Required .env Configuration:**
+```bash
+# AWS Configuration for Bedrock AI
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_actual_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_actual_aws_secret_key
+LLM_PROVIDER=aws
+PORT=3000
+```
+
+#### Step 3: Get AWS Credentials
+1. Go to [AWS Console](https://console.aws.amazon.com/)
+2. Navigate to **IAM** > **Users** > **Your User**
+3. Click **Security Credentials** tab
+4. Click **Create Access Key**
+5. Copy the **Access Key ID** and **Secret Access Key**
+6. Paste them into your `.env` file
+
+**Important:** Enable **AWS Bedrock** in your AWS account:
+- Go to **AWS Bedrock Console**
+- Request access to **Claude 3.5 Sonnet** model
+- Follow [AWS_BEDROCK_SETUP.md](AWS_BEDROCK_SETUP.md) for detailed steps
+
+#### Step 4: Start the Application
+```bash
+# Start the server
 npm start
 
-# 5. Access the platform
-# Main Desktop Interface: http://localhost:3000/desktop-preview.html
-# Home Dashboard: http://localhost:3000/home.html
-# Knowledge Base: http://localhost:3000/knowledge-neural.html
+# The server will start on http://localhost:3000
+# You should see: "✅ Knowledge base embeddings loaded: 18 chunks available"
 ```
+
+#### Step 5: Access the Interface
+Open your browser and navigate to:
+- **🖥️ Main Desktop:** http://localhost:3000/desktop-preview.html
+- **🏠 Home Dashboard:** http://localhost:3000/home.html
+- **⚡ Ansible Lab:** http://localhost:3000/ansible-lab.html
+- **📚 Knowledge Base:** http://localhost:3000/knowledge-neural.html
+
+### 📚 **Complete Documentation**
+
+For comprehensive setup instructions:
+- **📋 [Complete Setup Guide](SETUP_GUIDE.md)** - Detailed platform-specific instructions
+- **🤝 [Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
+- **🔧 [AWS Bedrock Setup](AWS_BEDROCK_SETUP.md)** - Cloud AI configuration
+- **🖥️ [Desktop Interface Preview](DESKTOP_INTERFACE_PREVIEW.md)** - Interface documentation
 
 ### 🎯 **Available Interfaces**
 | Interface | URL | Purpose |
 |-----------|-----|---------|
-| **Desktop Preview** | `/desktop-preview.html` | Main enterprise dashboard |
-| **Ansible Lab** | `/ansible-lab.html` | Playbook execution and automation |
-| **Shell Matrix** | `/shell-matrix.html` | Command line operations |
-| **Knowledge Neural** | `/knowledge-neural.html` | RAG document search |
-| **Document Manager** | `/document-manager.html` | File upload and processing |
-| **Admin Panel** | `/admin.html` | System administration |
+| **🖥️ Desktop Preview** | `/desktop-preview.html` | Main enterprise dashboard |
+| **🏠 Home Dashboard** | `/home.html` | Central command center |
+| **⚡ Ansible Lab** | `/ansible-lab.html` | Playbook execution and automation |
+| **🖥️ Shell Matrix** | `/shell-matrix.html` | Command line operations |
+| **📚 Knowledge Neural** | `/knowledge-neural.html` | RAG document search |
+| **📄 Document Manager** | `/document-manager.html` | File upload and processing |
+| **👨‍💼 Admin Panel** | `/admin.html` | System administration |
+
+## 🤝 **Contributing to Agentic AI DevOps OS**
+
+We welcome contributions! Here's how to get started:
+
+### 🎯 **For New Contributors**
+
+#### 1. **Development Setup**
+```bash
+# Fork the repository on GitHub, then:
+git clone https://github.com/YOUR_USERNAME/agentic-ai-devops-os.git
+cd agentic-ai-devops-os
+
+# Add upstream remote
+git remote add upstream https://github.com/vilaswasnik/agentic-ai-devops-os.git
+
+# Install dependencies
+npm install
+
+# Create development branch
+git checkout -b feature/your-feature-name
+```
+
+#### 2. **Development Environment**
+```bash
+# Start development server with auto-reload
+npm run dev
+
+# Run tests (if available)
+npm test
+
+# Check code style
+npm run lint
+```
+
+#### 3. **Project Structure Understanding**
+```
+agentic-ai-devops-os/
+├── server.js                 # Main Express server
+├── public/                   # Web interfaces
+│   ├── desktop-preview.html  # Main desktop interface
+│   ├── ansible-lab.html      # Ansible automation interface
+│   ├── shell-matrix.html     # Shell script interface
+│   ├── knowledge-neural.html # RAG knowledge base
+│   └── scripts/              # Client-side JavaScript
+├── ansible/                  # Ansible playbooks and configs
+├── data/                     # Runtime data (conversations, etc.)
+└── scripts/                  # Server-side utilities
+```
+
+### 🛠️ **Areas for Contribution**
+
+#### **🚀 High Priority:**
+1. **Terraform Integration** - Implement Infrastructure as Code agent
+2. **Kubernetes Deployment** - Add K8s manifests and helm charts
+3. **Authentication System** - Multi-user login and RBAC
+4. **API Documentation** - Swagger/OpenAPI specification
+5. **Mobile Interface** - Responsive design improvements
+
+#### **🎨 Medium Priority:**
+1. **Custom LLM Integration** - Support for local models (Ollama, etc.)
+2. **Monitoring Dashboard** - System health and metrics
+3. **Plugin System** - Extensible agent architecture
+4. **CI/CD Pipelines** - GitHub Actions automation
+5. **Performance Optimization** - Caching and load balancing
+
+#### **📚 Documentation & Testing:**
+1. **Unit Tests** - Test coverage for core functionality
+2. **Integration Tests** - End-to-end testing
+3. **API Documentation** - Complete endpoint documentation
+4. **Video Tutorials** - Setup and usage guides
+5. **Translation** - Multi-language support
+
+### 📋 **Contribution Process**
+
+#### **Step-by-Step Guide:**
+1. **Choose an Issue** - Check [GitHub Issues](https://github.com/vilaswasnik/agentic-ai-devops-os/issues)
+2. **Discuss First** - Comment on the issue to avoid duplicated work
+3. **Create Branch** - `git checkout -b feature/issue-description`
+4. **Develop & Test** - Follow coding standards and test your changes
+5. **Update Documentation** - Update relevant .md files
+6. **Commit Changes** - Use conventional commit messages
+7. **Push & PR** - Create a Pull Request with detailed description
+
+#### **Commit Message Format:**
+```bash
+# Feature additions
+git commit -m "✨ Add Terraform integration agent"
+
+# Bug fixes  
+git commit -m "🐛 Fix Ansible playbook execution error"
+
+# Documentation
+git commit -m "📚 Update installation guide"
+
+# Security
+git commit -m "🔒 Improve credential handling"
+
+# Performance
+git commit -m "⚡ Optimize knowledge base search"
+```
+
+### 🔧 **Development Guidelines**
+
+#### **Code Standards:**
+- **JavaScript ES6+** - Use modern JavaScript features
+- **Node.js Best Practices** - Follow Express.js conventions
+- **Security First** - Never commit credentials or sensitive data
+- **Error Handling** - Implement proper try-catch blocks
+- **Logging** - Use console.log for development, structured logging for production
+
+#### **File Organization:**
+- **New Agents** - Add to `public/` with corresponding `.html` and `.js`
+- **Server Routes** - Add API endpoints to `server.js`
+- **Documentation** - Update README.md and create specific guides
+- **Tests** - Add to `tests/` directory (create if needed)
+
+#### **Testing Requirements:**
+```bash
+# Before submitting PR, ensure:
+1. npm start works without errors
+2. All interfaces load correctly
+3. Ansible playbooks execute successfully
+4. No security vulnerabilities introduced
+5. Documentation is updated
+```
 
 ## 📚 **Advanced Features**
 
