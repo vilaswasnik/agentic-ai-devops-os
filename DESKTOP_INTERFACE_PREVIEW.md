@@ -243,9 +243,8 @@ http://localhost:3000/document-manager.html # Document upload/processing
    - Document processing pipeline
    - Knowledge base expansion
 
-5. **🔗 Blockchain Agent** (`/blockchain-agent.html`) - **EXPERIMENTAL**
-6. **🤖 AI Agent** (`/aiagent.html`) - **AVAILABLE**
-7. **🚀 Copilot Interface** (`/copilot.html`) - **AVAILABLE**
+5. **🤖 AI Agent** (`/aiagent.html`) - **AVAILABLE**
+6. **🚀 Copilot Interface** (`/copilot.html`) - **AVAILABLE**
 
 ## 🔧 **CURRENT DEPLOYMENT STATUS:**
 
