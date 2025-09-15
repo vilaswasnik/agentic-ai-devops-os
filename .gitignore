@@ -17,6 +17,12 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# API Keys and Secrets
+*api*key*
+*secret*
+credentials.json
+auth.json
+
 # Logs
 logs
 *.log

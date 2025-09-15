@@ -7,6 +7,11 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - ANSIBLE_HOST_KEY_CHECKING=False
+      - ANSIBLE_STDOUT_CALLBACK=yaml
+    volumes:
+      - ./ansible:/app/ansible:rw
+      - ./data:/app/data:rw
     depends_on:
       - db
 
@@ -18,3 +23,8 @@ services:
       POSTGRES_DB: mydb
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
