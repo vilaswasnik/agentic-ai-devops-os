@@ -1,8 +1,8 @@
 # Agentic AI DevOps OS
 
-**Enterprise-Grade AI-Powered DevOps Automation Platform**
+**Enterprise-Grade AI-Powered DevOps Automation Platform with Docker Support**
 
-Agentic AI DevOps OS is a production-ready, open-source platform that revolutionizes DevOps operations through intelligent AI agents. Built for enterprises and DevOps teams who want to automate infrastructure management with AI-powered decision making.
+Agentic AI DevOps OS is a production-ready, containerized platform that revolutionizes DevOps operations through intelligent AI agents. Built for enterprises and DevOps teams who want to automate infrastructure management with AI-powered decision making, now with complete Docker containerization support.
 
 ## 🚀 **Key Features**
 
@@ -10,13 +10,21 @@ Agentic AI DevOps OS is a production-ready, open-source platform that revolution
 - **Ansible AI Agent** - Automated infrastructure deployment and configuration management
 - **Shell Script AI Agent** - Intelligent system command execution and automation
 - **Knowledge Base AI Agent** - RAG-powered documentation and best practices retrieval
-- **Terraform AI Agent** - Infrastructure as Code management *(coming soon)*
+- **Document Processing Agent** - Multi-format document analysis and embedding generation
 
 ### ☁️ **Enterprise Cloud Integration**
 - **AWS Bedrock Integration** - Claude 3.5 Sonnet model for advanced AI capabilities
+- **Secure Environment Variables** - All API keys managed through environment variables
 - **Document Processing** - Multi-format support (PDF, DOC, DOCX, TXT, HTML, XML, MD)
 - **Vector Embeddings** - Intelligent similarity search and context retrieval
 - **Real-time AI Responses** - Sub-second query processing and command execution
+
+### 🐳 **Container-First Architecture**
+- **Docker Support** - Complete containerization with Dockerfile and Docker Compose
+- **Multi-Stage Deployment** - Development and production configurations
+- **Auto-Initialization** - Automatic Ansible and Node.js startup in containers
+- **Environment Isolation** - Secure, reproducible deployments
+- **Scalable Architecture** - Ready for orchestration and horizontal scaling
 
 ### 🖥️ **Professional Web Interface**
 - **Desktop-style Interface** - Enterprise-grade user experience
@@ -27,7 +35,7 @@ Agentic AI DevOps OS is a production-ready, open-source platform that revolution
 ### 🔧 **DevOps Automation Ready**
 - **15+ Ansible Playbooks** - Pre-built automation for common tasks
 - **Shell Script Library** - Verified and tested system operations
-- **Container Support** - Docker deployment ready
+- **Container Orchestration** - Docker and Docker Compose support
 - **CI/CD Integration** - GitHub Actions and pipeline support
 
 ## 🏗️ **Architecture Overview**
@@ -158,18 +166,29 @@ ansible/
 
 ### 🔐 **Security Architecture**
 
-#### **Security Layers:**
-- **🔒 Environment Variables** - Secure credential management
-- **🛡️ AWS IAM Integration** - Cloud-native security
-- **🚫 Input Validation** - Prevent injection attacks
-- **📝 Audit Logging** - Track all operations
-- **🔐 HTTPS Ready** - Production encryption support
+#### **🛡️ Enterprise-Grade Security:**
+- **🔒 Zero Credential Exposure** - All API keys managed through environment variables only
+- **🛡️ AWS IAM Integration** - Cloud-native security with proper IAM roles
+- **🚫 Input Validation** - Comprehensive sanitization to prevent injection attacks
+- **📝 Comprehensive Audit Logging** - Track all operations and access patterns
+- **🔐 HTTPS Ready** - Production encryption support with SSL/TLS
+- **🐳 Container Security** - Isolated execution environments with Docker
+- **📋 Security-First .gitignore** - Prevents accidental credential commits
 
-#### **Data Protection:**
-- **Local Storage** - Sensitive data never leaves your environment
-- **Encrypted Communications** - AWS Bedrock secure channels
-- **No Credential Exposure** - Environment-based configuration
-- **Isolated Execution** - Sandboxed command execution
+#### **🔐 Data Protection:**
+- **🏠 Local Storage Priority** - Sensitive data never leaves your controlled environment
+- **🔗 Encrypted Communications** - All AWS Bedrock communications use secure channels
+- **🚫 Zero Hardcoded Secrets** - No API keys, passwords, or credentials in source code
+- **🔒 Environment Isolation** - Complete separation of development and production credentials
+- **⚙️ Sandboxed Execution** - All system commands run in controlled environments
+- **🔍 Secret Scanning Protection** - GitHub push protection prevents credential exposure
+
+#### **🛠️ Security Best Practices:**
+- **✅ Environment Variables Only** - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` via `.env` files
+- **✅ .gitignore Protection** - Comprehensive exclusions for secrets and sensitive files
+- **✅ Container Isolation** - Docker provides process and filesystem isolation
+- **✅ Principle of Least Privilege** - Minimal required permissions for all operations
+- **✅ Regular Security Updates** - Automated dependency updates and security patches
 
 ### 📈 **Scalability Design**
 
@@ -250,12 +269,59 @@ PORT=3000
 - Follow [AWS_BEDROCK_SETUP.md](AWS_BEDROCK_SETUP.md) for detailed steps
 
 #### Step 4: Start the Application
+
+**Option A: Standard Deployment**
 ```bash
 # Start the server
 npm start
 
 # The server will start on http://localhost:3000
 # You should see: "✅ Knowledge base embeddings loaded: 18 chunks available"
+```
+
+**Option B: Docker Deployment (Recommended)**
+```bash
+# Build the Docker image
+docker build -t agentic-ai-devops-os .
+
+# Run with Docker
+docker run -d -p 3000:3000 \
+  -e AWS_ACCESS_KEY_ID=your_aws_access_key \
+  -e AWS_SECRET_ACCESS_KEY=your_aws_secret_key \
+  -e AWS_REGION=us-east-1 \
+  --name agentic-ai-devops-os \
+  agentic-ai-devops-os
+
+# Or use Docker Compose (easiest)
+docker-compose up --build
+```
+
+**Option C: Development with Docker Compose**
+```bash
+# For development with hot reload
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+### 🐳 **Docker Container Features**
+
+The Docker container includes:
+- **✅ Node.js 20** - Latest stable runtime
+- **✅ Ansible Core** - Pre-installed and configured
+- **✅ Python 3** - For Ansible and system operations
+- **✅ Auto-initialization** - Ansible and Node.js start automatically
+- **✅ Environment isolation** - Secure credential management
+- **✅ Volume mapping** - Persistent ansible and data directories
+
+**Container Health Check:**
+```bash
+# Check if container is running
+docker ps
+
+# View container logs
+docker logs agentic-ai-devops-os
+
+# Test container functionality
+docker exec -it agentic-ai-devops-os ./test-container.sh
 ```
 
 #### Step 5: Access the Interface
@@ -539,10 +605,29 @@ For comprehensive documentation, see:
 - **Real-time Collaboration** - Team-based DevOps operations
 - **Compliance Automation** - Security and governance workflows
 
+## 📋 **Recent Updates & Changes**
+
+### 🆕 **Version 2.0.0 - September 2025**
+- **🐳 Complete Docker Containerization** - Full Docker and Docker Compose support
+- **🔒 Enhanced Security** - Zero credential exposure, comprehensive .gitignore protection
+- **🚀 Auto-initialization** - Containers start with both Ansible and Node.js automatically
+- **🗑️ Component Cleanup** - Removed blockchain and CentOS runner components for focus
+- **📦 Improved Build Process** - Streamlined deployment with container-first approach
+- **🛡️ Security Hardening** - All API keys moved to environment variables only
+
+### 🔄 **Breaking Changes**
+- **Removed Components:**
+  - Blockchain Agent (unused component removed for clarity)
+  - CentOS Runner (consolidated into main shell interface)
+- **Enhanced Components:**
+  - Docker deployment now recommended method
+  - All credentials must use environment variables
+  - Ansible configurations centralized in container startup
+
 ---
 
 **Status: PRODUCTION READY ✅**
-*Last Updated: August 26, 2025 - All systems tested and operational*
+*Last Updated: September 15, 2025 - Docker containerization complete, security enhanced*
 
 
 
