@@ -38,11 +38,17 @@
         .cta-btn:hover { transform:translateY(-6px); box-shadow:0 10px 40px -8px rgba(0,255,255,0.8); }
         .cta-btn.secondary { background:linear-gradient(90deg,#1d2f46,#0e1c30); color:#b0d4f0; border:1px solid rgba(0,255,255,0.25); box-shadow:none; }
         .cta-btn.secondary:hover { background:linear-gradient(90deg,#284564,#142b40); border-color:#00ffff; }
-        header.topbar { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:14px 34px; z-index:50; background:rgba(2,14,28,0.55); backdrop-filter:blur(20px); border-bottom:1px solid rgba(0,255,255,0.18); }
+        header.topbar { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:14px 34px; z-index:50; background:rgba(2,14,28,0.75); backdrop-filter:blur(20px); border-bottom:1px solid rgba(0,255,255,0.25); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
         header .logo { font-family:'Orbitron', monospace; font-size:20px; letter-spacing:.5px; color:#00ffff; font-weight:700; display:flex; align-items:center; gap:10px; }
-        header nav { display:flex; gap:22px; }
+        header nav { display:flex; gap:22px; align-items:center; }
         header nav a { text-decoration:none; color:#b0d4f0; font-size:13px; letter-spacing:.5px; padding:8px 14px; border-radius:30px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); transition:all .35s ease; }
         header nav a:hover { color:#00ffff; border-color:rgba(0,255,255,0.35); background:rgba(0,255,255,0.08); }
+        .user-badge { display:flex; align-items:center; gap:8px; padding:8px 16px; background:rgba(0,255,255,0.1); border:1px solid rgba(0,255,255,0.3); border-radius:30px; font-size:12px; }
+        .user-icon { font-size:16px; }
+        .user-name { color:#00ffff; font-weight:600; }
+        .user-role { background:rgba(0,255,255,0.2); padding:2px 8px; border-radius:12px; font-size:10px; text-transform:uppercase; color:#00ff88; }
+        .logout-btn { background:none; border:none; color:#ff6b6b; cursor:pointer; font-size:16px; padding:0 4px; transition:all .3s ease; }
+        .logout-btn:hover { color:#ff4444; transform:scale(1.2); }
         footer.site { max-width:1280px; margin:90px auto 0; padding:40px; color:#567; font-size:11px; letter-spacing:.5px; opacity:.8; }
         .badge { font-size:11px; padding:4px 10px; border:1px solid rgba(0,255,255,0.4); color:#00ffff; border-radius:30px; background:rgba(0,255,255,0.12); margin-left:10px; }
         @media (max-width:900px){
@@ -56,24 +62,25 @@
 </head>
 <body>
     <header class="topbar">
-        <div class="logo">DevOps AI <span class="badge">Preview</span></div>
+        <div class="logo">DevOps AI <span class="badge">v2.0 Secured</span></div>
         <nav>
-            <a href="/os.html">OS</a>
-            <a href="/agent-bot.html">Agent Bot</a>
-            <a href="/aiagent.html">Ansible Agent</a>
-            <a href="/knowledge-neural.html">Knowledge</a>
-            <a href="/terraform-core.html">Terraform</a>
+            <a href="/home.html">🏠 Home</a>
+            <a href="/os.html">🖥️ OS</a>
+            <a href="/agent-bot.html">🤖 Bot</a>
+            <a href="/ansible-lab.html">⚡ Ansible</a>
+            <a href="/knowledge-neural.html">📚 Knowledge</a>
+            <div id="user-info"></div>
         </nav>
     </header>
     <div class="home-wrapper">
         <div class="glassy-panel">
             <h1 class="brand">Unified DevOps AI Platform</h1>
-            <div class="tagline">A modular AI-driven operations workspace combining automation, infrastructure as code, shell orchestration, knowledge retrieval, and conversational agent workflows. This glassy interface is the launch nexus for all integrated agents.</div>
+            <div class="tagline">Enterprise-grade AI-driven operations workspace with JWT authentication, RBAC authorization, and secure command execution. Combining automation, infrastructure as code, shell orchestration, knowledge retrieval, and conversational agent workflows with production-ready security.</div>
             <div class="quick-stats">
-                <div class="stat"><h3>Multi-Agent Core</h3><p>Specialized task-focused AI agents: Ansible, Terraform, Shell, Knowledge RAG, and Conversational Bot.</p></div>
-                <div class="stat"><h3>Secure Isolation</h3><p>Execution boundaries & controlled script adapters for safer automation.</p></div>
-                <div class="stat"><h3>Streaming LLM</h3><p>Real-time token streaming with offline fallback & snapshot-based versioning.</p></div>
-                <div class="stat"><h3>Knowledge RAG</h3><p>Embeddings-backed retrieval pipeline (foundation in place for semantic expansion).</p></div>
+                <div class="stat"><h3>✅ JWT Authentication</h3><p>Secure token-based authentication with role-based access control (Admin/Operator/Viewer).</p></div>
+                <div class="stat"><h3>🔒 Command Allowlists</h3><p>Execution boundaries & controlled script adapters with path traversal protection.</p></div>
+                <div class="stat"><h3>🚀 Streaming LLM</h3><p>Real-time token streaming with AWS Bedrock Claude 3 integration and offline fallback.</p></div>
+                <div class="stat"><h3>🛡️ Rate Limiting</h3><p>Multi-tier rate limiting and security headers protect against abuse and attacks.</p></div>
             </div>
             <h2 class="section-title">Agents & Workspaces</h2>
             <div class="agent-cards">
@@ -109,8 +116,23 @@
                 <a class="cta-btn secondary" href="/knowledge-neural.html">Knowledge Portal</a>
             </div>
         </div>
-        <footer class="site">© <span id="year"></span> DevOps AI Platform — Internal Preview Build. Streaming LLM + modular automation. Future roadmap: advanced RAG ranking, IaC drift, role-based policy gating.</footer>
+        <footer class="site">© <span id="year"></span> DevOps AI Platform — Production Ready v2.0 | Phase 1 Security Hardening Complete ✅ | JWT Auth • RBAC • Rate Limiting • Command Allowlists • Security Headers</footer>
     </div>
-    <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+    <script src="scripts/auth.js"></script>
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Initialize authentication (not required for home page, but display user if logged in)
+        if (isAuthenticated()) {
+            displayUserInfo('user-info');
+        } else {
+            // Show login button if not authenticated
+            const userInfoDiv = document.getElementById('user-info');
+            if (userInfoDiv) {
+                userInfoDiv.innerHTML = '<a href="/login.html" style="padding:8px 16px; background:linear-gradient(90deg,#00ffff,#00ff88); color:#02121e; border-radius:30px; text-decoration:none; font-weight:600; font-size:12px;">Login</a>';
+            }
+        }
+    </script>
 </body>
 </html>

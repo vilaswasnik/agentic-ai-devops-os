@@ -1,12 +1,29 @@
 const express = require('express');
 const { exec } = require('child_process');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const LAB_USER = process.env.ANSIBLE_LAB_USER || 'test_user';
 const LAB_PASS = process.env.ANSIBLE_LAB_PASS || 'test_user';
 const { askLLM, getProviderInfo, switchProvider, askLLMStream, isAwsConfigured } = require('./public/scripts/llmService');
 const predefinedAnswers = require('./public/trainingData.json').predefinedAnswers;
 const fs = require('fs');
+const { 
+  authenticateToken, 
+  requireAdmin, 
+  requireOperator, 
+  generateToken, 
+  hashPassword, 
+  comparePassword 
+} = require('./middleware/auth');
+const {
+  executeShellScript,
+  executeAnsiblePlaybook,
+  executeAnsibleScript,
+  getAllowedShellScripts,
+  getAllowedPlaybooks
+} = require('./middleware/secureExec');
 require('dotenv').config();
 
 // Optional: Levenshtein distance for fuzzy matching
@@ -44,10 +61,59 @@ function findClosestKey(input, keys) {
 }
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Allow inline scripts for demo purposes
+  crossOriginEmbedderPolicy: false
+}));
+
+// CORS configuration - restrict in production
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',') 
+  : ['http://localhost:3000', 'http://localhost:8080'];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+// Body parser with size limits
+app.use(express.json({ limit: '10mb' }));
+
+// Global rate limiter
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Strict rate limiter for sensitive operations
+const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: 'Too many requests, please try again later.'
+});
+
+// Auth rate limiter
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many login attempts, please try again later.'
+});
+
+app.use(globalLimiter);
 
 // Ensure static files are served from 'public'
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,37 +128,35 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-// Endpoint to run a shell script present at script folder -need to remove
-app.post('/run-script', (req, res) => {
+// DEPRECATED: Legacy endpoint - kept for backward compatibility but with security
+app.post('/run-script', authenticateToken, requireOperator, strictLimiter, async (req, res) => {
     const { scriptPath } = req.body;
     if (!scriptPath) {
         console.error('Script path is missing in the request.');
         return res.status(400).json({ error: 'Script path is required' });
     }
-    // Block getOSDetailsLinux
+    
+    // Block getOSDetailsLinux and only allow specific scripts
     if (scriptPath.includes('getOSDetailsLinux')) {
         return res.status(403).json({ error: 'This script is disabled.' });
     }
 
-    // Resolve the full path to the script
-    const fullScriptPath = path.join(__dirname, 'public', 'scripts', scriptPath);
-
-    console.log(`Received request to execute script: ${scriptPath}`);
-    console.log(`Resolved full script path: ${fullScriptPath}`);
-
-    exec(`sh ${fullScriptPath}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing script: ${stderr}`);
-            return res.status(500).json({ error: stderr.trim() });
-        }
-        console.log(`Script executed successfully. Output: ${stdout}`);
-        res.json({ output: stdout.trim() });
-    });
+    try {
+        const scriptName = path.basename(scriptPath);
+        const baseDir = path.join(__dirname, 'public', 'scripts');
+        const result = await executeShellScript(scriptName, baseDir, 5000);
+        
+        console.log(`✅ Script executed by ${req.user.username}: ${scriptName}`);
+        res.json({ output: result.stdout });
+    } catch (error) {
+        console.error(`❌ Script execution failed: ${error.message}`);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 
-// Endpoint to run a shell script hello2.sh. and for all .sh scripts in the shell_scripts folder
-app.post('/run-shellscript', (req, res) => {
+// Execute shell scripts from shell_scripts folder (secured with allowlist)
+app.post('/run-shellscript', authenticateToken, requireOperator, strictLimiter, async (req, res) => {
     const { scriptPath } = req.body;
 
     // Validate scriptPath
@@ -100,100 +164,109 @@ app.post('/run-shellscript', (req, res) => {
         console.error('Script path is missing in the request.');
         return res.status(400).json({ error: 'Script path is required' });
     }
-    if (scriptPath.includes('..')) {
-        console.error('Invalid script path detected.');
-        return res.status(400).json({ error: 'Invalid script path' });
-    }
     if (!scriptPath.endsWith('.sh')) {
         console.error('Invalid script type. Only .sh scripts are allowed.');
         return res.status(400).json({ error: 'Invalid script type' });
     }
 
-    // Resolve the full path to the script
-    const fullScriptPath = path.join(__dirname, 'public', 'scripts', 'shell_scripts', scriptPath);
-
-    // Check if the script exists
-    if (!fs.existsSync(fullScriptPath)) {
-        console.error(`Script not found: ${fullScriptPath}`);
-        return res.status(404).json({ error: 'Script not found' });
+    try {
+        const scriptName = path.basename(scriptPath);
+        const baseDir = path.join(__dirname, 'public', 'scripts', 'shell_scripts');
+        const result = await executeShellScript(scriptName, baseDir, 5000);
+        
+        console.log(`✅ Shell script executed by ${req.user.username}: ${scriptName}`);
+        res.json({ output: result.stdout });
+    } catch (error) {
+        console.error(`❌ Shell script execution failed: ${error.message}`);
+        res.status(500).json({ error: error.message });
     }
+});
 
-    console.log(`Received request to execute script: ${scriptPath}`);
-    console.log(`Resolved full script path: ${fullScriptPath}`);
-
-    // Execute the script with a timeout
-    exec(`sh ${fullScriptPath}`, { timeout: 5000 }, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing script: ${stderr}`);
-            return res.status(500).json({ error: stderr.trim() });
-        }
-        console.log(`Script executed successfully. Output: ${stdout}`);
-        res.json({ output: stdout.trim() });
-    });
+// Get list of allowed shell scripts
+app.get('/api/allowed-scripts', authenticateToken, (req, res) => {
+    res.json({ scripts: getAllowedShellScripts() });
 });
 
 
 
-// Endpoint to run a installansible
-app.post('/run-script-installansible', (req, res) => {
+// Execute Ansible installation scripts (secured)
+app.post('/run-script-installansible', authenticateToken, requireOperator, strictLimiter, async (req, res) => {
     const { scriptPath } = req.body;
     if (!scriptPath) {
         console.error('Script path is missing in the request.');
         return res.status(400).json({ error: 'Script path is required' });
     }
 
-    // Resolve the full path to the script
-    const fullScriptPath = path.join(__dirname, 'ansible', scriptPath);
-
-    console.log(`Received request to execute script: ${scriptPath}`);
-    console.log(`Resolved full script path: ${fullScriptPath}`);
-
-    exec(`sh ${fullScriptPath}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing script: ${stderr}`);
-            return res.status(500).json({ error: stderr.trim() });
-        }
-        console.log(`Script executed successfully. Output: ${stdout}`);
-        res.json({ output: stdout.trim() });
-    });
+    try {
+        const scriptName = path.basename(scriptPath);
+        const baseDir = path.join(__dirname, 'ansible');
+        const result = await executeAnsibleScript(scriptName, baseDir, 60000);
+        
+        console.log(`✅ Ansible script executed by ${req.user.username}: ${scriptName}`);
+        res.json({ output: result.stdout });
+    } catch (error) {
+        console.error(`❌ Ansible script execution failed: ${error.message}`);
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Endpoint to execute the Ansible Hello World playbook
-app.post('/run-ansible-helloworld', (req, res) => {
-    const playbookPath = path.join(__dirname, 'public', 'scripts', 'ansiblehelloworld.yml');
-    const inventoryPath = path.join(__dirname, 'ansible', 'inventory'); // Ensure inventory path is correct
-
-    console.log(`Executing Ansible playbook: ${playbookPath}`);
-    exec(`ansible-playbook -i ${inventoryPath} ${playbookPath}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing playbook: ${stderr}`);
-            return res.status(500).json({ error: stderr.trim() });
-        }
-        console.log(`Playbook executed successfully. Output: ${stdout}`);
-        res.json({ output: stdout.trim() });
-    });
+// Execute the Ansible Hello World playbook (secured)
+app.post('/run-ansible-helloworld', authenticateToken, requireOperator, strictLimiter, async (req, res) => {
+    try {
+        const playbookName = 'ansiblehelloworld.yml';
+        const inventoryName = 'inventory';
+        const playbookDir = path.join(__dirname, 'public', 'scripts');
+        const inventoryDir = path.join(__dirname, 'ansible');
+        
+        const result = await executeAnsiblePlaybook(
+            playbookName, 
+            inventoryName, 
+            playbookDir, 
+            inventoryDir,
+            30000
+        );
+        
+        console.log(`✅ Ansible Hello World executed by ${req.user.username}`);
+        res.json({ output: result.stdout });
+    } catch (error) {
+        console.error(`❌ Ansible playbook execution failed: ${error.message}`);
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Endpoint to execute an Ansible playbook
-app.post('/run-playbook', (req, res) => {
+// Execute an Ansible playbook (secured with allowlist)
+app.post('/run-playbook', authenticateToken, requireOperator, strictLimiter, async (req, res) => {
     const { playbookPath, inventoryPath } = req.body;
     if (!playbookPath || !inventoryPath) {
         console.error('Playbook path or inventory path is missing in the request.');
         return res.status(400).json({ error: 'Playbook path and inventory path are required' });
     }
 
-    const playbookFullPath = path.join(__dirname, 'ansible', playbookPath);
-    const inventoryFullPath = path.join(__dirname, 'ansible', inventoryPath);
+    try {
+        const playbookName = path.basename(playbookPath);
+        const inventoryName = path.basename(inventoryPath);
+        const playbookDir = path.join(__dirname, 'ansible');
+        const inventoryDir = path.join(__dirname, 'ansible');
+        
+        const result = await executeAnsiblePlaybook(
+            playbookName,
+            inventoryName,
+            playbookDir,
+            inventoryDir,
+            60000
+        );
+        
+        console.log(`✅ Ansible playbook executed by ${req.user.username}: ${playbookName}`);
+        res.json({ output: result.stdout });
+    } catch (error) {
+        console.error(`❌ Ansible playbook execution failed: ${error.message}`);
+        res.status(500).json({ error: error.message });
+    }
+});
 
-    console.log(`Executing Ansible playbook: ${playbookFullPath} with inventory: ${inventoryFullPath}`);
-    exec(`ansible-playbook -i ${inventoryFullPath} ${playbookFullPath}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing playbook: ${stderr}`);
-            return res.status(500).json({ error: stderr.trim() });
-        }
-        console.log(`Playbook executed successfully. Output: ${stdout}`);
-        res.json({ output: stdout.trim() });
-    });
+// Get list of allowed playbooks
+app.get('/api/allowed-playbooks', authenticateToken, (req, res) => {
+    res.json({ playbooks: getAllowedPlaybooks() });
 });
 
 // Endpoint to handle chatbot messages
@@ -287,15 +360,40 @@ Reply with ONLY the exact command key from the list above, or "none".
     }
 });
 
-// User management (for admin use)
-const users = {
-    admin: { password: 'admin123', isAdmin: true, temp: false }
-    // Add more users as needed
-};
+// Secure user management with bcrypt hashed passwords
+// NOTE: In production, move this to a database (PostgreSQL recommended)
+const users = {}; // Will store: { username: { passwordHash, role, temp } }
 
-// Helper to add a user (call this from an admin route)
-function addUser(username, password, temp = true) {
-    users[username] = { password, isAdmin: false, temp };
+// Initialize default admin user on startup (hash password once)
+async function initializeDefaultUsers() {
+  try {
+    // Only create if no admin exists
+    if (!users['admin']) {
+      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+      const adminHash = await hashPassword(adminPassword);
+      users['admin'] = { 
+        passwordHash: adminHash, 
+        role: 'admin',
+        temp: false 
+      };
+      console.log('✅ Default admin user initialized');
+      if (!process.env.ADMIN_PASSWORD) {
+        console.warn('⚠️  WARNING: Using default admin password. Set ADMIN_PASSWORD in .env for production!');
+      }
+    }
+  } catch (error) {
+    console.error('Failed to initialize users:', error.message);
+  }
+}
+
+// Call initialization
+initializeDefaultUsers();
+
+// Helper to add a user
+async function addUser(username, password, role = 'viewer', temp = true) {
+  const passwordHash = await hashPassword(password);
+  users[username] = { passwordHash, role, temp };
+  return { username, role, temp };
 }
 
 // LLM Provider Management Endpoints
@@ -316,7 +414,7 @@ app.get('/api/llm/status', async (req, res) => {
     }
 });
 
-app.post('/api/llm/switch', (req, res) => {
+app.post('/api/llm/switch', authenticateToken, requireAdmin, (req, res) => {
     try {
         const { provider } = req.body;
         if (!provider || !['aws'].includes(provider)) {
@@ -330,7 +428,7 @@ app.post('/api/llm/switch', (req, res) => {
     }
 });
 
-app.post('/api/llm/test', async (req, res) => {
+app.post('/api/llm/test', authenticateToken, async (req, res) => {
     try {
         const { message, provider } = req.body;
         const testPrompt = message || 'Hello! Please respond with a brief greeting.';
@@ -342,24 +440,81 @@ app.post('/api/llm/test', async (req, res) => {
     }
 });
 
-// Login endpoint
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-    const user = users[username];
-    if (!user) return res.json({ success: false, message: 'User not found' });
-    if (user.password !== password) return res.json({ success: false, message: 'Incorrect password' });
-    if (user.temp) return res.json({ success: false, resetRequired: true, message: 'Password reset required' });
-    // Set session/cookie here for real security
-    res.json({ success: true });
+// Login endpoint with JWT
+app.post('/api/login', authLimiter, async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.json({ success: false, message: 'Username and password required' });
+        }
+        
+        const user = users[username];
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+        
+        // Compare password with hash
+        const isValid = await comparePassword(password, user.passwordHash);
+        if (!isValid) {
+            return res.json({ success: false, message: 'Incorrect password' });
+        }
+        
+        if (user.temp) {
+            return res.json({ 
+                success: false, 
+                resetRequired: true, 
+                message: 'Password reset required' 
+            });
+        }
+        
+        // Generate JWT token
+        const token = generateToken({ username, role: user.role });
+        
+        res.json({ 
+            success: true, 
+            token,
+            user: {
+                username,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ success: false, message: 'Login failed' });
+    }
 });
 
 // Password reset endpoint
-app.post('/api/reset', (req, res) => {
-    const { username, password } = req.body;
-    if (!users[username]) return res.json({ success: false, message: 'User not found' });
-    users[username].password = password;
-    users[username].temp = false;
-    res.json({ success: true, message: 'Password reset successful. Please login.' });
+app.post('/api/reset', authLimiter, async (req, res) => {
+    try {
+        const { username, password, newPassword } = req.body;
+        
+        if (!username || !password || !newPassword) {
+            return res.json({ success: false, message: 'All fields required' });
+        }
+        
+        const user = users[username];
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+        
+        // Verify current password
+        const isValid = await comparePassword(password, user.passwordHash);
+        if (!isValid) {
+            return res.json({ success: false, message: 'Current password incorrect' });
+        }
+        
+        // Hash and save new password
+        const newHash = await hashPassword(newPassword);
+        users[username].passwordHash = newHash;
+        users[username].temp = false;
+        
+        res.json({ success: true, message: 'Password reset successful. Please login.' });
+    } catch (error) {
+        console.error('Password reset error:', error);
+        res.status(500).json({ success: false, message: 'Password reset failed' });
+    }
 });
 
 // ===== Chat History Persistence (file-backed) =====
@@ -392,8 +547,8 @@ function saveConversations(obj) {
     }
 }
 
-// Get history for an agent + session
-app.get('/api/chat/history', (req, res) => {
+// Get history for an agent + session (requires authentication)
+app.get('/api/chat/history', authenticateToken, (req, res) => {
     const agent = (req.query.agent || '').toString();
     const session = (req.query.session || '').toString();
     if (!agent || !session) return res.status(400).json({ error: 'Missing agent or session' });
@@ -402,8 +557,8 @@ app.get('/api/chat/history', (req, res) => {
     res.json({ messages });
 });
 
-// Overwrite history for an agent + session
-app.post('/api/chat/history', (req, res) => {
+// Overwrite history for an agent + session (requires authentication)
+app.post('/api/chat/history', authenticateToken, (req, res) => {
     const { agent, session, messages } = req.body || {};
     if (!agent || !session || !Array.isArray(messages)) return res.status(400).json({ error: 'Invalid payload' });
     const store = loadConversations();
@@ -413,8 +568,8 @@ app.post('/api/chat/history', (req, res) => {
     res.json({ success: true });
 });
 
-// Delete history for an agent + session
-app.delete('/api/chat/history', (req, res) => {
+// Delete history for an agent + session (requires authentication)
+app.delete('/api/chat/history', authenticateToken, (req, res) => {
     const { agent, session } = req.body || {};
     if (!agent || !session) return res.status(400).json({ error: 'Invalid payload' });
     const store = loadConversations();
@@ -427,7 +582,7 @@ app.delete('/api/chat/history', (req, res) => {
 });
 
 // Logoff endpoint
-app.post('/api/logoff', (req, res) => {
+app.post('/api/logoff', authenticateToken, (req, res) => {
     // Clear session/cookie logic here
     res.json({ success: true });
 });
@@ -667,8 +822,8 @@ const upload = multer({
 let uploadedDocuments = [];
 let documentEmbeddings = [];
 
-// Upload document endpoint
-app.post('/api/upload-document', upload.single('document'), (req, res) => {
+// Upload document endpoint (requires authentication)
+app.post('/api/upload-document', authenticateToken, upload.single('document'), (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
@@ -699,8 +854,8 @@ app.post('/api/upload-document', upload.single('document'), (req, res) => {
     }
 });
 
-// Process document and generate embeddings
-app.post('/api/process-document', async (req, res) => {
+// Process document and generate embeddings (requires authentication)
+app.post('/api/process-document', authenticateToken, async (req, res) => {
     try {
         const { documentId } = req.body;
         
@@ -751,8 +906,8 @@ app.post('/api/process-document', async (req, res) => {
     }
 });
 
-// Search in uploaded documents
-app.post('/api/search-documents', async (req, res) => {
+// Search in uploaded documents (requires authentication)
+app.post('/api/search-documents', authenticateToken, async (req, res) => {
     try {
         const { query } = req.body;
         
@@ -833,8 +988,8 @@ Answer:`;
     }
 });
 
-// Get document statistics
-app.get('/api/document-stats', (req, res) => {
+// Get document statistics (requires authentication)
+app.get('/api/document-stats', authenticateToken, (req, res) => {
     try {
         const totalDocuments = uploadedDocuments.length;
         const processedDocuments = uploadedDocuments.filter(doc => doc.processed).length;
@@ -1002,12 +1157,12 @@ async function ansibleStatus(){
     } catch(e){ return { running:false }; }
 }
 
-app.get('/api/lab/ansible/status', async (req,res)=>{
+app.get('/api/lab/ansible/status', authenticateToken, async (req,res)=>{
     const st = await ansibleStatus();
     res.json(st);
 });
 
-app.post('/api/lab/ansible/start', async (req,res)=>{
+app.post('/api/lab/ansible/start', authenticateToken, requireOperator, strictLimiter, async (req,res)=>{
     try {
         const st = await ansibleStatus();
         if(st.running) return res.json({ alreadyRunning:true, containerId: st.containerId });
@@ -1032,7 +1187,7 @@ app.post('/api/lab/ansible/start', async (req,res)=>{
     } catch(e){ res.status(500).json({ error: e.message }); }
 });
 
-app.post('/api/lab/ansible/stop', async (req,res)=>{
+app.post('/api/lab/ansible/stop', authenticateToken, requireOperator, async (req,res)=>{
     try {
         const st = await ansibleStatus();
         if(!st.running) return res.json({ alreadyStopped:true });
@@ -1043,7 +1198,7 @@ app.post('/api/lab/ansible/stop', async (req,res)=>{
 });
 
 // List playbooks (yml/yaml) in host ansible directory root
-app.get('/api/lab/ansible/playbooks', async (req,res)=>{
+app.get('/api/lab/ansible/playbooks', authenticateToken, async (req,res)=>{
     try {
         const files = fs.readdirSync(ansibleHostDir).filter(f=>/\.(yml|yaml)$/i.test(f));
         res.json({ output: files.join('\n'), cwd: ansibleHostDir });
@@ -1051,7 +1206,7 @@ app.get('/api/lab/ansible/playbooks', async (req,res)=>{
 });
 
 // Fetch a single playbook
-app.get('/api/lab/ansible/file', (req,res)=>{
+app.get('/api/lab/ansible/file', authenticateToken, (req,res)=>{
     const name = (req.query.name||'').toString();
     if(!/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(name)) return res.status(400).json({ error:'Bad name' });
     const fp = path.join(ansibleHostDir, name);
@@ -1060,14 +1215,14 @@ app.get('/api/lab/ansible/file', (req,res)=>{
 });
 
 // Save (create/update) a playbook
-app.post('/api/lab/ansible/file', (req,res)=>{
+app.post('/api/lab/ansible/file', authenticateToken, requireOperator, (req,res)=>{
     const { name, content } = req.body||{};
     if(!name || !/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(name)) return res.status(400).json({ error:'Invalid name' });
     try { fs.writeFileSync(path.join(ansibleHostDir, name), content||'', 'utf8'); res.json({ saved:true, dir: ansibleHostDir }); } catch(e){ res.status(500).json({ error:e.message }); }
 });
 
 // Delete
-app.delete('/api/lab/ansible/file', (req,res)=>{
+app.delete('/api/lab/ansible/file', authenticateToken, requireOperator, (req,res)=>{
     const name = (req.query.name||'').toString();
     if(!/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(name)) return res.status(400).json({ error:'Bad name' });
     const fp = path.join(ansibleHostDir, name);
@@ -1076,7 +1231,7 @@ app.delete('/api/lab/ansible/file', (req,res)=>{
 });
 
 // Rename
-app.post('/api/lab/ansible/rename', (req,res)=>{
+app.post('/api/lab/ansible/rename', authenticateToken, requireOperator, (req,res)=>{
     const { oldName, newName } = req.body||{};
     if(!/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(oldName||'') || !/^[A-Za-z0-9._-]+\.(yml|yaml)$/.test(newName||'')) return res.status(400).json({ error:'Invalid names' });
     try {
@@ -1090,7 +1245,7 @@ app.post('/api/lab/ansible/rename', (req,res)=>{
 });
 
 // Execute arbitrary command (guarded) inside running container, working dir /workspace
-app.post('/api/lab/ansible/exec', async (req,res)=>{
+app.post('/api/lab/ansible/exec', authenticateToken, requireOperator, strictLimiter, async (req,res)=>{
     try {
         const { cmd } = req.body||{};
         if(!cmd || typeof cmd !== 'string') return res.status(400).json({ error:'Missing cmd' });

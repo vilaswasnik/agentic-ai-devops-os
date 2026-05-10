@@ -2,25 +2,217 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - AI DevOps Agent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Agentic AI DevOps OS</title>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/matrix.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #020816 0%, #0a1628 55%, #1a2332 100%);
+        }
+        
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(10, 22, 40, 0.75);
+            backdrop-filter: blur(30px) saturate(150%);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 50px 60px;
+            box-shadow: 0 0 60px -10px rgba(0, 255, 255, 0.4);
+            min-width: 420px;
+            text-align: center;
+        }
+        
+        .login-container:before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.4), rgba(255, 0, 128, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+        
+        .subtitle {
+            color: #b0d4f0;
+            font-size: 14px;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            font-family: 'Orbitron', monospace;
+            color: #00ffff;
+            margin-bottom: 30px;
+            font-size: 24px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+        
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        input::placeholder {
+            color: #7a9cb8;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+            border: none;
+            border-radius: 12px;
+            color: #02121e;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Exo 2', sans-serif;
+            text-transform: uppercase;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        }
+        
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 35px rgba(0, 255, 255, 0.6);
+        }
+        
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+        
+        #login-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        
+        .success-message {
+            color: #00ffff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(calc(-50% - 5px), -50%); }
+            20%, 40%, 60%, 80% { transform: translate(calc(-50% + 5px), -50%); }
+        }
+        
+        .footer-links {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #7a9cb8;
+        }
+        
+        .footer-links a {
+            color: #00ffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #00ff88;
+        }
+        
+        .security-badge {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 11px;
+            color: #00ff88;
+            letter-spacing: 0.5px;
+        }
+        
+        .security-badge:before {
+            content: "🔒";
+            margin-right: 6px;
+        }
+    </style>
 </head>
 <body>
     <!-- Matrix Background Effect -->
     <canvas id="matrix-canvas"></canvas>
     
     <div class="login-container">
-        <h2>Login</h2>
+        <div class="logo">DEVOPS AI</div>
+        <div class="subtitle">ENTERPRISE PLATFORM</div>
+        <h2>SYSTEM ACCESS</h2>
         <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required><br>
-            <input type="password" id="password" placeholder="Password" required><br>
-            <button type="submit">Login</button>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Authenticate</button>
         </form>
         <div id="login-message"></div>
+        <div class="security-badge">JWT Secure Authentication</div>
+        <div class="footer-links">
+            Need help? <a href="/reset.html">Reset Password</a>
+        </div>
     </div>
     
     <script src="scripts/matrix.js"></script>
-    <script type="module" src="scripts/login.js"></script>
+    <script src="scripts/login.js"></script>
 </body>
 </html>

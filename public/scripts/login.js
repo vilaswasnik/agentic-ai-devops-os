@@ -5,7 +5,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const msgDiv = document.getElementById('login-message');
     
     // Show loading message with Matrix theme
-    msgDiv.innerHTML = '<div class="success-message">ACCESSING SYSTEM...</div>';
+    msgDiv.innerHTML = '<div class="success-message">🔐 AUTHENTICATING...</div>';
     
     try {
         const res = await fetch('/api/login', {
@@ -16,8 +16,13 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         const data = await res.json();
         
         if (data.success) {
+            // Store JWT token and user info
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('userRole', data.user.role);
+            localStorage.setItem('username', data.user.username);
+            
             // Show success message
-            msgDiv.innerHTML = '<div class="success-message">ACCESS GRANTED</div>';
+            msgDiv.innerHTML = '<div class="success-message">✅ ACCESS GRANTED</div>';
             
             // Stop matrix effect with fade out
             if (window.stopMatrixEffect) {
@@ -26,16 +31,16 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             
             // Wait for matrix effect to fade before redirecting
             setTimeout(() => {
-                window.location.href = '/os.html';
-            }, 2000);
+                window.location.href = '/home.html';
+            }, 1500);
             
         } else if (data.resetRequired) {
-            msgDiv.innerHTML = '<div style="color: #ff6600;">PASSWORD RESET REQUIRED</div>';
+            msgDiv.innerHTML = '<div style="color: #ff6600;">⚠️ PASSWORD RESET REQUIRED</div>';
             setTimeout(() => {
                 window.location.href = `/reset.html?user=${encodeURIComponent(username)}`;
             }, 1500);
         } else {
-            msgDiv.innerHTML = '<div style="color: #ff0000;">ACCESS DENIED</div>';
+            msgDiv.innerHTML = '<div style="color: #ff0000;">❌ ACCESS DENIED</div>';
             // Add error shake effect
             document.querySelector('.login-container').style.animation = 'shake 0.5s ease-in-out';
             setTimeout(() => {
@@ -44,7 +49,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             }, 500);
         }
     } catch (error) {
-        msgDiv.innerHTML = '<div style="color: #ff0000;">SYSTEM ERROR</div>';
+        msgDiv.innerHTML = '<div style="color: #ff0000;">⚠️ SYSTEM ERROR</div>';
         console.error('Login error:', error);
     }
 });
