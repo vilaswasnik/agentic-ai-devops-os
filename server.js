@@ -369,7 +369,11 @@ async function initializeDefaultUsers() {
   try {
     // Only create if no admin exists
     if (!users['admin']) {
-      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      if (!adminPassword) {
+        console.warn('⚠️  ADMIN_PASSWORD is not set — skipping default admin creation. Set ADMIN_PASSWORD in .env to seed the admin account.');
+        return;
+      }
       const adminHash = await hashPassword(adminPassword);
       users['admin'] = { 
         passwordHash: adminHash, 
@@ -377,9 +381,6 @@ async function initializeDefaultUsers() {
         temp: false 
       };
       console.log('✅ Default admin user initialized');
-      if (!process.env.ADMIN_PASSWORD) {
-        console.warn('⚠️  WARNING: Using default admin password. Set ADMIN_PASSWORD in .env for production!');
-      }
     }
   } catch (error) {
     console.error('Failed to initialize users:', error.message);
