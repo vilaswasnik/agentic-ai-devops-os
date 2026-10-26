@@ -1,8 +1,15 @@
 // Authentication and Authorization Middleware
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'CHANGE_THIS_IN_PRODUCTION_USE_ENV_VAR';
+// JWT secret: set JWT_SECRET in your .env. There is no built-in default -
+// if it is not set, a random per-boot secret is generated instead, which
+// means existing tokens stop working when the server restarts.
+const JWT_SECRET = process.env.JWT_SECRET || (() => {
+  console.warn('JWT_SECRET is not set - generating a random per-boot secret. Set JWT_SECRET in .env for stable sessions.');
+  return crypto.randomBytes(32).toString('hex');
+})();
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
 // Verify JWT token middleware

@@ -91,7 +91,7 @@ npm install
 cp .env.example .env
 # Edit .env and set:
 # - JWT_SECRET (generate: openssl rand -base64 32)
-# - ADMIN_PASSWORD (change from default!)
+# - ADMIN_PASSWORD (required - the server has no default password)
 # - ALLOWED_ORIGINS (your domain)
 ```
 
@@ -124,7 +124,7 @@ npm install
 # Security Configuration
 JWT_SECRET=your_secure_random_jwt_secret_minimum_32_characters_long
 JWT_EXPIRES_IN=24h
-ADMIN_PASSWORD=admin123  # CHANGE THIS!
+ADMIN_PASSWORD=your-strong-admin-password  # CHANGE THIS!
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
 NODE_ENV=development
 ```
@@ -139,7 +139,7 @@ NODE_ENV=development
 # Login
 curl -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}'
+  -d '{"username":"admin","password":"your-admin-password"}'
 
 # Response: {"success":true,"token":"eyJhbGc...","user":{...}}
 
@@ -305,7 +305,7 @@ npm run lint
 # 1. Login
 curl -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}'
+  -d '{"username":"admin","password":"your-admin-password"}'
 
 # Save the token from response
 export TOKEN="your_token_here"
